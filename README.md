@@ -21,5 +21,7 @@ git clone https://github.com/AI-Funding/AI_Funding_BE.git
 |서버| Aws EC2
 
 
+test test 교육용
+
 
 
