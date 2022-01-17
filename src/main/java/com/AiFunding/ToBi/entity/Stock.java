@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Builder
 @ToString
 @Getter
-@Table(name = "stock")
+@Table(name = "STOCK")
 public class Stock {
 
     @Id

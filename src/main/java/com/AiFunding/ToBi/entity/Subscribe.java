@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 @Getter
-@Table(name = "subscribe")
+@Table(name = "SUBSCRIBE")
 public class Subscribe {
 
     @Id

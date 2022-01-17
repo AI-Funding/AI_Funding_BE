@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Builder
 @ToString
 @Getter
-@Table(name = "device")
+@Table(name = "DEVICE")
 public class Device {
 
 

@@ -11,7 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 @Builder
 @ToString
 @Getter
-@Table(name = "account_stock_detail")
+@Table(name = "ACCOUNT_STOCK_DETAIL")
 public class AccountStockDetail {
 
     @Id

@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity // Entity 선언
-@Table(name = "account") // 사용 테이블 선언
+@Table(name = "ACCOUNT") // 사용 테이블 선언
 @ToString // toString 오버라이딩
 @Getter // Getter 선언
 @Builder // 빌더 패턴 선언
