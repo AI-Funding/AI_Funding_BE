@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @NoArgsConstructor
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 @ToString
 @Getter
 @Table(name = "STOCK")
-public class Stock {
+public class Stock implements Serializable {
 
     @Id
     @Column(name = "item_id")

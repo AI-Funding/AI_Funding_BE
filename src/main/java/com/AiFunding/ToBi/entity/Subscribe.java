@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @ToString
 @Getter
 @Table(name = "SUBSCRIBE")
-public class Subscribe {
+public class Subscribe implements Serializable {
 
     @Id
     @Column(name = "user_sequence")

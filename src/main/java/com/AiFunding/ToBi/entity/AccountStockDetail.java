@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
+import java.io.Serializable;
 
 @Entity
 @NoArgsConstructor
@@ -12,11 +13,14 @@ import javax.persistence.criteria.CriteriaBuilder;
 @ToString
 @Getter
 @Table(name = "ACCOUNT_STOCK_DETAIL")
-public class AccountStockDetail {
+public class AccountStockDetail implements Serializable {
 
     @Id
-    @Column(name = "account_number")
-    private Long accountNumber;
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_number")
+    private Account account;
 
     @Column(name = "item_id")
     private String itemId;
@@ -30,8 +34,5 @@ public class AccountStockDetail {
     @Column(name = "yield")
     private Double yield;
 
-    @ManyToOne
-    @JoinColumn(name = "account")
-    private Account account;
 
 }

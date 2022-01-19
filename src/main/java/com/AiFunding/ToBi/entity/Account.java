@@ -2,11 +2,13 @@ package com.AiFunding.ToBi.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity // Entity 선언
 @Table(name = "ACCOUNT") // 사용 테이블 선언
@@ -15,14 +17,15 @@ import java.time.LocalDateTime;
 @Builder // 빌더 패턴 선언
 @AllArgsConstructor // 모든 인자를 가지는 생성자 선언
 @NoArgsConstructor // 기본 생성자 선언
-public class Account {
+public class Account implements Serializable {
 
-    @Id
-    @Column(name = "user_sequence")
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userSequence;
 
     @Id
-    @Column(name = "account_number")
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accountNumber;
 
     @Column
@@ -45,5 +48,4 @@ public class Account {
 
     @Column
     private Boolean visiable;
-
 }

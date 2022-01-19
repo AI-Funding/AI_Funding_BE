@@ -3,6 +3,7 @@ package com.AiFunding.ToBi.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,11 +13,14 @@ import java.time.LocalDateTime;
 @ToString
 @Getter
 @Table(name = "ACCOUNT_DETAIL")
-public class AccountDetail {
+public class AccountDetail implements Serializable {
 
     @Id
-    @Column(name = "account_number")
-    private Long accountNumber;
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_number")
+    private Account account;
 
     @Column(name = "deposit_type")
     private String depositType;
@@ -27,7 +31,4 @@ public class AccountDetail {
     @Column(name = "create_time")
     private LocalDateTime createTime;
 
-    @ManyToOne
-    @JoinColumn(name = "account")
-    private Account account;
 }
