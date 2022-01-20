@@ -2,9 +2,7 @@ package com.AiFunding.ToBi.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
@@ -13,7 +11,19 @@ import javax.persistence.Table;
 @ToString
 @Getter
 @Table(name = "DEVICE")
-public class Device {
+public class DeviceEntity {
+
     @Id
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_sequence")
+    private CustomerInformationEntity customerInformation;
+
+    @Column(name = "device_number", unique = true)
+    private String deviceNumber;
+
+    @Column
+    private String password;
+
 }
