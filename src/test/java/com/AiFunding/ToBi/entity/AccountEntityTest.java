@@ -12,15 +12,16 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @SpringBootTest
-public class AccountTest {
+public class AccountEntityTest {
 
-    @Autowired
+    @Autowired // AccountRepository 에 대해서 빈을 주입합니다.
     private AccountRepository accountRepository;
 
     @Test
     public void save(){
-        // insert into account value()
-        Account account = Account.builder()
+        // insert into account (account_type, visiable, create_time, modified_time, ai_type, balance, yield)
+        // values(?,?,?,?,?,?,?,)
+        AccountEntity accountEntity = AccountEntity.builder()
                 .accountType("6")
                 .visiable(true)
                 .createTime(LocalDateTime.now())
@@ -30,23 +31,29 @@ public class AccountTest {
                 .yield(109421)
                         .build();
 
-        accountRepository.save(account);
+        accountRepository.save(accountEntity);
 
-        Account findByDatabase = accountRepository.findById(3L).get();
-        assertThat(findByDatabase).usingRecursiveComparison().isEqualTo(account);
+        // SELECT * FROM account WHERE account_number = 3
+        AccountEntity findByDatabase = accountRepository.findById(3L).get();
+        assertThat(findByDatabase).usingRecursiveComparison().isEqualTo(accountEntity);
     }
 
     @Test
     public void read(){
-        Optional<Account> account = accountRepository.findById(1L);
+        // SELECT * FROM account WHERE account_number=1
+        Optional<AccountEntity> account = accountRepository.findById(1L);
         assertThat(account.get().getYield()).isEqualTo(23);
     }
 
     @Test
     public void update(){
-        Optional<Account> account = accountRepository.findById(1L);
 
-        accountRepository.save(Account.builder().accountNumber(1L).accountType("4")
+        // SELECT * FROM account WHERE account_number=1
+        Optional<AccountEntity> account = accountRepository.findById(1L);
+
+        // insert into account (visiable, create_time, modified_time, ai_type, balance, yield)
+        // values(?,?,?,?,?,?)
+        accountRepository.save(AccountEntity.builder().accountNumber(1L).accountType("4")
                 .visiable(account.get().getVisiable())
                 .createTime(account.get().getCreateTime())
                 .modifiedTime(LocalDateTime.now())
@@ -61,6 +68,7 @@ public class AccountTest {
 
     @Test
     public void deleteAll(){
+        //DELETE FROM account
         accountRepository.deleteAll();
     }
 
