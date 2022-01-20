@@ -23,6 +23,7 @@ public class Subscribe implements Serializable {
     @Column(name = "user_sequence")
     private Long userSequence;
 
+
     @Column
     private Boolean subscription;
 
