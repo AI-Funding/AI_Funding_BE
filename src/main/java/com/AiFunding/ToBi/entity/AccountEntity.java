@@ -5,6 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity // Jpa를 사용하기 위한 Entity 설정
 @NoArgsConstructor // 파라미터가 없는 생성자 생성
@@ -44,4 +46,14 @@ public class AccountEntity implements Serializable {
 
     @Column
     private Boolean visiable;
+
+    @OneToMany(mappedBy = "accountEntity")
+    List<AccountDetailEntity> accountDetails = new ArrayList<>();
+
+    @OneToMany(mappedBy = "accountEntity")
+    List<AccountStockDetailEntity> accountStockDetails = new ArrayList<>();
+
+    @OneToMany(mappedBy = "accountEntity")
+    List<TransactionDetailEntity> transactionDetails = new ArrayList<>();
+
 }

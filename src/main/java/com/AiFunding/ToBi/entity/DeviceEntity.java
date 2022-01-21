@@ -16,7 +16,7 @@ public class DeviceEntity {
     @Id
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_sequence")
     private CustomerInformationEntity customerInformation;
 

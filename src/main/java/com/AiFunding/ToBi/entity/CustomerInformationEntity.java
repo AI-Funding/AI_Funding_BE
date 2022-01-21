@@ -6,6 +6,8 @@ import org.apache.tomcat.jni.Local;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity // JPA가 사용하도록 Entity라는 어노테이션을 붙입니다.
 @NoArgsConstructor // 파라미터가 없는 기본 생성자를 만듭니다.
@@ -47,5 +49,12 @@ public class CustomerInformationEntity {
     @Column(name = "login_type")
     private String loginType;
 
+    @OneToMany(mappedBy = "customerInformation")
+    List<AccountEntity> accounts = new ArrayList<>();
 
+    @OneToOne(mappedBy = "customerInformation")
+    private SubscribeEntity subscribeEntities;
+
+    @OneToOne(mappedBy = "customerInformation")
+    private DeviceEntity deviceEntity;
 }
