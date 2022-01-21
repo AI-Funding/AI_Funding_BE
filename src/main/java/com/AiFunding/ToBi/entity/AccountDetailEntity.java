@@ -1,6 +1,8 @@
 package com.AiFunding.ToBi.entity;
 
+import com.sun.istack.NotNull;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,12 +24,15 @@ public class AccountDetailEntity implements Serializable {
     @JoinColumn(name = "account_number") // account_number로 Join을 합니다.
     private AccountEntity accountEntity;
 
+    @NotNull
     @Column(name = "deposit_type")
     private String depositType;
 
+    @NotNull
     @Column(name = "deposit_amount")
     private Long depositAmount;
 
+    @CreatedDate
     @Column(name = "create_time")
     private LocalDateTime createTime;
 

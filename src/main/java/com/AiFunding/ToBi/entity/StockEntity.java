@@ -1,5 +1,6 @@
 package com.AiFunding.ToBi.entity;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.Column;

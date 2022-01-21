@@ -1,5 +1,6 @@
 package com.AiFunding.ToBi.entity;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,12 +23,15 @@ public class SubscribeEntity implements Serializable {
     @JoinColumn(name = "user_sequence") // Join을 사용하기 위한 컬럼은 user_sequence 입니다.
     private CustomerInformationEntity customerInformation;
 
+    @NotNull
     @Column
     private Boolean subscription;
 
+    @NotNull
     @Column(name = "subscribe_date")
     private LocalDateTime subscribeDate;
 
+    @NotNull
     @Column(name = "expire_date")
     private LocalDate expireDate;
 

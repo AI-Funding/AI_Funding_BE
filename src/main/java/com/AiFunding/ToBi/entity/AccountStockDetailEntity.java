@@ -1,5 +1,6 @@
 package com.AiFunding.ToBi.entity;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,15 +23,19 @@ public class AccountStockDetailEntity implements Serializable {
     @JoinColumn(name = "account_number")
     private AccountEntity accountEntity;
 
+    @NotNull
     @Column(name = "item_id")
     private String itemId;
 
+    @NotNull
     @Column(name = "stock_amount")
     private Integer stockAmount;
 
+    @NotNull
     @Column(name = "average_price")
     private Integer averagePrice;
 
+    @NotNull
     @Column(name = "yield")
     private Double yield;
 

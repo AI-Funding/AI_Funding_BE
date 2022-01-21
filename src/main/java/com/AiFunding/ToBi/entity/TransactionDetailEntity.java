@@ -1,6 +1,8 @@
 package com.AiFunding.ToBi.entity;
 
+import com.sun.istack.NotNull;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -32,6 +34,7 @@ public class TransactionDetailEntity implements Serializable {
     @Column(name = "deposit_amount")
     private Long depositAmount;
 
+    @CreatedDate
     @Column(name = "create_time")
     private LocalDateTime createTime;
 

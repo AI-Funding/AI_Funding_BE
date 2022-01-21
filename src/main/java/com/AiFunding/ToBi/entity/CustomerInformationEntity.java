@@ -1,7 +1,9 @@
 package com.AiFunding.ToBi.entity;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import org.apache.tomcat.jni.Local;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -25,28 +27,33 @@ public class CustomerInformationEntity {
 
     @Id // PK 값을 설정합니다.
     @Column(name = "user_sequence") // Column 이름을 설정합니다.
+    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 데이터 베이스에게 ID 생성을 AUTO_INCREMENT로 위임합니다.
     private Long userSequence;
 
     @Column
+    @NotNull
     private String nickname;
 
     @Column(name = "user_id")
+    @NotNull
     private String userId;
 
+    @CreatedDate
     @Column(name = "create_time")
+    @NotNull
     private LocalDateTime createTime;
 
     @Column
+    @NotNull
     private LocalDate birth;
 
     @Column
+    @NotNull
     private String email;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
     @Column(name = "login_type")
+    @NotNull
     private String loginType;
 
     @OneToMany(mappedBy = "customerInformation")
