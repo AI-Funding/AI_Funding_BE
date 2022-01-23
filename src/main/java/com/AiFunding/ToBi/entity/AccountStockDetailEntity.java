@@ -2,9 +2,12 @@ package com.AiFunding.ToBi.entity;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Entity // Jpa를 사용하기 위한 Entity 설정
@@ -17,6 +20,8 @@ import java.io.Serializable;
 public class AccountStockDetailEntity implements Serializable {
 
     @Id
+    @Column(name = "account_stock_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,7 +29,7 @@ public class AccountStockDetailEntity implements Serializable {
     private AccountEntity accountEntity;
 
     @NotNull
-    @Column(name = "item_id")
+    @Column(name = "item_id", length = 20)
     private String itemId;
 
     @NotNull
@@ -36,8 +41,12 @@ public class AccountStockDetailEntity implements Serializable {
     private Integer averagePrice;
 
     @NotNull
-    @Column(name = "yield")
-    private Double yield;
+    @Column(name = "income")
+    private Double income;
+
+    @CreatedDate
+    @Column(name = "create_at")
+    private LocalDateTime createAt;
 
 
 }

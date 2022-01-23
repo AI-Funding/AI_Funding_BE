@@ -21,12 +21,12 @@ import java.util.List;
 @Table(name = "ACCOUNT") // ACCOUNT이라는 이름의 테이블을 매핑해줍니다.
 public class AccountEntity implements Serializable {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_sequence")
-    private CustomerInformationEntity customerInformation;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_sequence")
+//    private CustomerInformationEntity customerInformation;
 
     @Id
-    @Column
+    @Column(length = 30, name = "account_number")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accountNumber;
 
@@ -34,33 +34,44 @@ public class AccountEntity implements Serializable {
     private Long balance;
 
     @Column
-    private Integer yield;
+    private Integer income;
 
     @CreatedDate // 자동으로 생성된 날짜가 들어가게 함
-    @Column(name = "create_time")
-    private LocalDateTime createTime;
+    @Column(name = "create_at")
+    private LocalDateTime createAt;
 
     @LastModifiedDate // 자동으로 데이터를 업데이트 할 때 날짜가 들어가게 됩니다.
-    @Column(name = "modified_time")
-    private LocalDateTime modifiedTime;
+    @Column(name = "modified_at")
+    private LocalDateTime modifiedAt;
 
     @Column(name = "ai_type")
     @NotNull
     private Integer aiType;
 
-    @Column(name = "account_type")
-    private String accountType;
-
+    @Column(name = "user_visable")
     @NotNull
-    private Boolean visiable;
+    private Boolean userVisiable;
 
-    @OneToMany(mappedBy = "accountEntity")
+    @OneToMany
+    @JoinColumn(name = "account_detail_id")
     List<AccountDetailEntity> accountDetails = new ArrayList<>();
 
-    @OneToMany(mappedBy = "accountEntity")
-    List<AccountStockDetailEntity> accountStockDetails = new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name = "account_stock_id")
+    List<AccountStockDetailEntity> accountStocks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "accountEntity")
-    List<TransactionDetailEntity> transactionDetails = new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name = "trade_id")
+    List<TradingDetailEntity> tradingEntities = new ArrayList<>();
+
+
+//    @OneToMany(mappedBy = "accountEntity")
+//    List<AccountDetailEntity> accountDetails = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "accountEntity")
+//    List<AccountStockDetailEntity> accountStockDetails = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "accountEntity")
+//    List<TransactionDetailEntity> transactionDetails = new ArrayList<>();
 
 }
