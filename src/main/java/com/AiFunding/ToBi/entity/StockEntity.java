@@ -20,7 +20,7 @@ public class StockEntity implements Serializable {
 
     @Id
     @Column(name = "item_id", length = 20)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "item_name", length = 50)

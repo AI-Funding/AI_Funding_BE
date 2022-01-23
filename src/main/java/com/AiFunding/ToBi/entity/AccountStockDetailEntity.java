@@ -24,10 +24,6 @@ public class AccountStockDetailEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_number")
-    private AccountEntity accountEntity;
-
     @NotNull
     @Column(name = "item_id", length = 20)
     private String itemId;

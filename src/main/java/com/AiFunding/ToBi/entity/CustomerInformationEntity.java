@@ -26,7 +26,7 @@ public class CustomerInformationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 데이터 베이스에게 ID 생성을 AUTO_INCREMENT로 위임합니다.
     private Long userSequence;
 
-    @Column
+    @Column(length = 50)
     @NotNull
     private String nickname;
 

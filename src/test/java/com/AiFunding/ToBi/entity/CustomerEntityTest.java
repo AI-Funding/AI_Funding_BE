@@ -1,6 +1,7 @@
 package com.AiFunding.ToBi.entity;
 
 import com.AiFunding.ToBi.mapper.CustomerInformationRepository;
+import com.AiFunding.ToBi.mapper.StockRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +20,9 @@ public class CustomerEntityTest {
     @Autowired
     private CustomerInformationRepository customRepository;
 
+    @Autowired
+    private StockRepository stockRepository;
+
     @Test
     public void save(){
 
@@ -27,8 +31,16 @@ public class CustomerEntityTest {
                 .build();
         customRepository.save(custom);
 
+//        StockEntity stock = StockEntity.builder()
+//                .id("A1234")
+//                .itemName("해찬").nowPrice(12312).build();
+//        stockRepository.save(stock);
+
         Optional<CustomerInformationEntity> findCustom = customRepository.findById(1L);
         assertThat(findCustom.get().getNickname()).isEqualTo("유해찬");
+
+
+
     }
 
 }
