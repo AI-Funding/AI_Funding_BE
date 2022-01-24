@@ -1,14 +1,11 @@
 package com.AiFunding.ToBi.entity;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 
 @Entity // Jpa를 사용하기 위한 Entity 설정
 @NoArgsConstructor // 파라미터가 없는 생성자 생성
@@ -16,33 +13,24 @@ import java.time.LocalDateTime;
 @Builder // 빌더 패턴 사용
 @ToString // ToString 오버라이딩
 @Getter // Getter 사용
-@Table(name = "ACCOUNT_STOCK_DETAIL") // ACCOUNT_STOCK_DETAIL이라는 이름의 테이블을 매핑해줍니다.
-public class AccountStockDetailEntity implements Serializable {
+@Table(name = "STOCK_PRICE_BY_DAY") // STOCK_PRICE_BY_DAY이라는 이름의 테이블을 매핑해줍니다.
+public class StockPriceByDayEntity implements Serializable{
 
     @Id
-    @Column(name = "account_stock_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "stock_id")
     private Long id;
 
-    @NotNull
-    @Column(name = "item_id", length = 20)
-    private String itemId;
-
-    @NotNull
-    @Column(name = "stock_amount")
-    private Integer stockAmount;
-
-    @NotNull
-    @Column(name = "average_price")
-    private Integer averagePrice;
-
-    @NotNull
-    @Column(name = "income")
-    private Double income;
+    @Column(name = "end_price")
+    private Integer endPrice;
 
     @CreatedDate
     @Column(name = "create_at")
     private LocalDateTime createAt;
+
+    @ManyToOne
+    @JoinColumn(name = "item_id")
+    private StockEntity stockEntity;
 
 
 }

@@ -14,16 +14,19 @@ import javax.persistence.*;
 public class DeviceEntity {
 
     @Id
+    @Column(name = "device_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_sequence")
-    private CustomerInformationEntity customerInformation;
-
-    @Column(name = "device_number", unique = true)
+    @Column(name = "device_number", unique = true, length = 50)
     private String deviceNumber;
 
-    @Column
+    @Column(length = 10)
     private String password;
+
+    //fk
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_sequence")
+    private CustomerInformationEntity customer;
 
 }

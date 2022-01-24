@@ -1,12 +1,12 @@
 package com.AiFunding.ToBi.entity;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity // Jpa를 사용하기 위한 Entity 설정
@@ -18,16 +18,23 @@ import java.io.Serializable;
 @Table(name = "STOCK") // STOCK이라는 이름의 테이블을 매핑해줍니다.
 public class StockEntity implements Serializable {
 
-    @Id // PK를 설정합니다.
-    @Column(name = "item_id") // name이라는 속성에 맞게 Column을 매핑합니다.
-    private Integer itemId;
+    @Id
+    @Column(name = "item_id", length = 20)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
 
-    @Column(name = "item_name") // Column을 매핑합니다.
+    @Column(name = "item_name", length = 50)
+    @NotNull
     private String itemName;
 
-    @Column(name = "end_price") // Column을 매핑합니다.
-    private Integer endPrice;
-
-    @Column(name = "now_price") // Column을 매핑합니다.
+    @Column(name = "now_price")
+    @NotNull
     private Integer nowPrice;
+
+    @OneToMany(mappedBy = "stockEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    List<StockPriceByDayEntity> stockPriceByDayEntities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "stockEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    List<TradingDetailEntity> tradingDetailEntities = new ArrayList<>();
+
 }
