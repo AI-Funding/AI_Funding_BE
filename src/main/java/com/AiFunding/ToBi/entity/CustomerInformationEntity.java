@@ -1,10 +1,11 @@
 package com.AiFunding.ToBi.entity;
 
+import com.sun.istack.NotNull;
 import lombok.*;
-import org.apache.tomcat.jni.Local;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +16,7 @@ import java.util.List;
 @Builder // 빌더 패턴을 사용합니다.
 @ToString // ToString을 오버라이딩합니다.
 @Getter // Getter를 사용합니다.
-@Table(name = "CUST_INFO", // CUST_INFO라는 테이블에 매핑을 하고 nickname과 user_id라는 컬럼은 unique로 설정을합니다.(2개이상일 떄는 이렇게 해아합니다,)
-    uniqueConstraints = {
-        @UniqueConstraint(
-                columnNames = {"nickname","user_id"}
-        )
-    })
+@Table(name = "CUSTOMER_INFO")  // CUSTOMER_INFO라는 테이블에 매핑을 합니다.
 public class CustomerInformationEntity {
 
     @Id // PK 값을 설정합니다.
@@ -28,33 +24,34 @@ public class CustomerInformationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 데이터 베이스에게 ID 생성을 AUTO_INCREMENT로 위임합니다.
     private Long userSequence;
 
-    @Column
+    @Column(length = 50)
+    @NotNull
     private String nickname;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", length = 50)
+    @NotNull
     private String userId;
 
-    @Column(name = "create_time")
-    private LocalDateTime createTime;
+    @CreatedDate
+    @Column(name = "create_at")
+    @NotNull
+    private LocalDateTime createAt;
 
-    @Column
-    private LocalDate birth;
+    @LastModifiedDate
+    @Column(name = "modified_at")
+    @NotNull
+    private LocalDateTime modifiedAt;
 
-    @Column
+    @Column(length = 100)
+    @NotNull
     private String email;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
-    @Column(name = "login_type")
+    @Column(name = "login_type", length = 2)
+    @NotNull
     private String loginType;
 
-    @OneToMany(mappedBy = "customerInformation")
-    List<AccountEntity> accounts = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
+    private List<AccountEntity> accounts;
 
-    @OneToOne(mappedBy = "customerInformation")
-    private SubscribeEntity subscribeEntities;
 
-    @OneToOne(mappedBy = "customerInformation")
-    private DeviceEntity deviceEntity;
 }
