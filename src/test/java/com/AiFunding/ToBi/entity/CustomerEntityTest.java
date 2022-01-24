@@ -6,10 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.swing.text.html.Option;
-import javax.transaction.Transactional;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,15 +27,18 @@ public class CustomerEntityTest {
     @Test
     public void save(){
 
+        List<AccountEntity> accountEntities = new ArrayList<>();
+
         CustomerInformationEntity custom = CustomerInformationEntity.builder()
                 .userId("해찬유").nickname("유해찬").loginType("1").email("haechan@naver.com")
+
                 .build();
         customRepository.save(custom);
 
-//        StockEntity stock = StockEntity.builder()
-//                .id("A1234")
-//                .itemName("해찬").nowPrice(12312).build();
-//        stockRepository.save(stock);
+        StockEntity stock = StockEntity.builder()
+                .id("A1234")
+                .itemName("해찬").nowPrice(12312).build();
+        stockRepository.save(stock);
 
         Optional<CustomerInformationEntity> findCustom = customRepository.findById(1L);
         assertThat(findCustom.get().getNickname()).isEqualTo("유해찬");
