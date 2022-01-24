@@ -46,7 +46,7 @@ public class TradingDetailEntity implements Serializable {
     @NotNull
     private LocalDateTime createAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "item_id")
     private StockEntity stockEntity;
 }

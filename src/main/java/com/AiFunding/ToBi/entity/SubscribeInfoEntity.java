@@ -36,4 +36,8 @@ public class SubscribeInfoEntity implements Serializable {
     @NotNull
     private LocalDateTime expireDate;
 
+    //fk
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_sequence")
+    private CustomerInformationEntity customer;
 }

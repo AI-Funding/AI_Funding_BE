@@ -2,12 +2,10 @@ package com.AiFunding.ToBi.entity;
 
 import com.sun.istack.NotNull;
 import lombok.*;
-import org.apache.tomcat.jni.Local;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,24 +50,8 @@ public class CustomerInformationEntity {
     @NotNull
     private String loginType;
 
-    @OneToMany
-    @JoinColumn(name = "account_number")
-    List<AccountEntity> accounts = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
+    private List<AccountEntity> accounts;
 
-    @OneToOne
-    @JoinColumn(name = "subscribe_id")
-    private SubscribeInfoEntity subscribeInfo;
 
-    @OneToOne
-    @JoinColumn(name = "device_id")
-    private DeviceEntity device;
-
-//    @OneToMany(mappedBy = "customerInformation")
-//    List<AccountEntity> accounts = new ArrayList<>();
-//
-//    @OneToOne(mappedBy = "customerInformation")
-//    private SubscribeEntity subscribeEntities;
-//
-//    @OneToOne(mappedBy = "customerInformation")
-//    private DeviceEntity deviceEntity;
 }

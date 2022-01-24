@@ -31,10 +31,10 @@ public class StockEntity implements Serializable {
     @NotNull
     private Integer nowPrice;
 
-    @OneToMany(mappedBy = "stockEntity")
+    @OneToMany(mappedBy = "stockEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<StockPriceByDayEntity> stockPriceByDayEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "stockEntity")
+    @OneToMany(mappedBy = "stockEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<TradingDetailEntity> tradingDetailEntities = new ArrayList<>();
 
 }

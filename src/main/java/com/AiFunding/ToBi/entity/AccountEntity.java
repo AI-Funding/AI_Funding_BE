@@ -21,10 +21,6 @@ import java.util.List;
 @Table(name = "ACCOUNT") // ACCOUNT이라는 이름의 테이블을 매핑해줍니다.
 public class AccountEntity implements Serializable {
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_sequence")
-//    private CustomerInformationEntity customerInformation;
-
     @Id
     @Column(length = 30, name = "account_number")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,18 +48,22 @@ public class AccountEntity implements Serializable {
     @NotNull
     private Boolean userVisiable;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_detail_id")
     List<AccountDetailEntity> accountDetails = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_stock_id")
     List<AccountStockDetailEntity> accountStocks = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "trade_id")
     List<TradingDetailEntity> tradingEntities = new ArrayList<>();
 
+    //FK
+    @ManyToOne
+    @JoinColumn(name = "user_sequence")
+    private CustomerInformationEntity customer;
 
 //    @OneToMany(mappedBy = "accountEntity")
 //    List<AccountDetailEntity> accountDetails = new ArrayList<>();
