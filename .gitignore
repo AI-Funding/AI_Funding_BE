@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### properties 파일 ##
+/src/main/resources/develop.properties
+
+### DS.store 파일 ###
+*.DS_Store
