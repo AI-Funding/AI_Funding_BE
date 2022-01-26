@@ -1,4 +1,4 @@
-package com.AiFunding.ToBi.dto;
+package com.AiFunding.ToBi.dto.Home;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,9 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class AccountListDto {
+public class AccountListResponseDto {
+
+    private String nickname;
 
     private Long balance;
 
@@ -22,10 +24,11 @@ public class AccountListDto {
 
     private Integer totalProfit;
 
-    private List<StockListDto> stocks;
+    private List<StockListResponseDto> stocks;
 
-    public AccountListDto(final Long balance, final LocalDateTime createAt, final Double todayIncome
-    , final Integer todayProfit, final Double totalIncome, final Integer totalProfit, final List<StockListDto> stocks){
+    public AccountListResponseDto(final String nickname, final Long balance, final LocalDateTime createAt, final Double todayIncome
+    , final Integer todayProfit, final Double totalIncome, final Integer totalProfit, final List<StockListResponseDto> stocks){
+        this.nickname = nickname;
         this.balance = balance;
         this.createAt = createAt;
         this.todayIncome = todayIncome;
