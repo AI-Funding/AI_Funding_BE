@@ -65,13 +65,5 @@ public class AccountEntity implements Serializable {
     @JoinColumn(name = "user_sequence")
     private CustomerInformationEntity customer;
 
-//    @OneToMany(mappedBy = "accountEntity")
-//    List<AccountDetailEntity> accountDetails = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "accountEntity")
-//    List<AccountStockDetailEntity> accountStockDetails = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "accountEntity")
-//    List<TransactionDetailEntity> transactionDetails = new ArrayList<>();
 
 }

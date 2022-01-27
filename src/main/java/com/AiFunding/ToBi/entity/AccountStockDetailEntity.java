@@ -44,5 +44,8 @@ public class AccountStockDetailEntity implements Serializable {
     @Column(name = "create_at")
     private LocalDateTime createAt;
 
-
+    //fk
+    @ManyToOne
+    @JoinColumn(name = "account_number")
+    private AccountEntity account;
 }
