@@ -22,9 +22,9 @@ public class AccountDetailEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY) // 다대일로 account_number와 매핑을 해줍니다. 또한, 타입은 지연로딩을 합니다.
-//    @JoinColumn(name = "account_number") // account_number로 Join을 합니다.
-//    private AccountEntity accountEntity;
+    @ManyToOne(fetch = FetchType.LAZY) // 다대일로 account_number와 매핑을 해줍니다. 또한, 타입은 지연로딩을 합니다.
+    @JoinColumn(name = "account_number") // account_number로 Join을 합니다.
+    private AccountEntity account;
 
     @NotNull
     @Column(name = "deposit_type", length = 2)
