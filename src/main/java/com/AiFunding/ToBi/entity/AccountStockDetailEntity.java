@@ -38,7 +38,7 @@ public class AccountStockDetailEntity implements Serializable {
 
     @NotNull
     @Column(name = "income")
-    private Double income;
+    private Integer income;
 
     @CreatedDate
     @Column(name = "create_at")
