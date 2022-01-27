@@ -24,6 +24,9 @@ public class StockPriceByDayEntity implements Serializable{
     @Column(name = "end_price")
     private Integer endPrice;
 
+    @Column(name = "start_price")
+    private Integer startPrice;
+
     @CreatedDate
     @Column(name = "create_at")
     private LocalDateTime createAt;
