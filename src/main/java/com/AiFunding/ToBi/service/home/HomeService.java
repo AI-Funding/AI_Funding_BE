@@ -1,4 +1,4 @@
-package com.AiFunding.ToBi.service;
+package com.AiFunding.ToBi.service.home;
 
 import com.AiFunding.ToBi.dto.Home.AccountListResponseDto;
 import com.AiFunding.ToBi.dto.Home.StockListResponseDto;
@@ -9,6 +9,8 @@ import com.AiFunding.ToBi.entity.CustomerInformationEntity;
 import com.AiFunding.ToBi.entity.StockEntity;
 import com.AiFunding.ToBi.mapper.CustomerInformationRepository;
 import com.AiFunding.ToBi.mapper.StockRepository;
+import com.AiFunding.ToBi.service.comparator.AccountComparator;
+import com.AiFunding.ToBi.service.comparator.StockComparator;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -65,23 +67,5 @@ public class HomeService {
         }
         Collections.sort(stockList,new StockComparator()); // 점유율에 대해서 내림차순으로 정렬
         return stockList;
-    }
-}
-
-class StockComparator implements Comparator<StockListResponseDto>{
-
-    @Override
-    public int compare(StockListResponseDto o1, StockListResponseDto o2) {
-        if(o1.getPercent_by_account() < o2.getPercent_by_account()) return 1;
-        else if(o1.getPercent_by_account() > o2.getPercent_by_account()) return -1;
-        return 0;
-    }
-}
-
-class AccountComparator implements Comparator<AccountListResponseDto>{
-
-    @Override
-    public int compare(AccountListResponseDto o1, AccountListResponseDto o2) {
-        return o1.getCreateAt().compareTo(o2.getCreateAt());
     }
 }
