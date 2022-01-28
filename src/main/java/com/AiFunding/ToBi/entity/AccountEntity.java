@@ -7,6 +7,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ public class AccountEntity implements Serializable {
 
     @Column
     private Integer income;
+
+    @Column(name = "yesterday_income")
+    private Integer yesterdayIncome;
 
     @CreatedDate // 자동으로 생성된 날짜가 들어가게 함
     @Column(name = "create_at")
