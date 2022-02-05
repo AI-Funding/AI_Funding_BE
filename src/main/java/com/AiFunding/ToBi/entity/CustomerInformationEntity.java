@@ -20,15 +20,15 @@ import java.util.List;
 public class CustomerInformationEntity {
 
     @Id // PK 값을 설정합니다.
-    @Column(name = "user_sequence") // Column 이름을 설정합니다.
+    @Column(name = "customer_info_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 데이터 베이스에게 ID 생성을 AUTO_INCREMENT로 위임합니다.
-    private Long userSequence;
+    private Long id;
 
     @Column(length = 50)
     @NotNull
     private String nickname;
 
-    @Column(name = "user_id", length = 50)
+    @Column(name = "user_id", length = 50, unique = true)
     @NotNull
     private String userId;
 
@@ -50,8 +50,14 @@ public class CustomerInformationEntity {
     @NotNull
     private String loginType;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
-    private List<AccountEntity> accounts;
+    private String password;
 
+    @Builder.Default
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
+    private List<AccountEntity> accounts = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "subscribe_info_id")
+    private SubscribeInfoEntity subscribeInfo;
 
 }

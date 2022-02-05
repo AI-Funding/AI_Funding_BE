@@ -23,15 +23,18 @@ import java.util.List;
 public class AccountEntity implements Serializable {
 
     @Id
-    @Column(length = 30, name = "account_number")
+    @Column(name = "account_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long accountNumber;
+    private Long id;
+
+    @Column(length = 30, name = "account_number", unique = true)
+    private String accountNumber;
 
     @Column
     private Long balance;
 
-    @Column
-    private Integer income;
+    @Column(name = "today_income")
+    private Integer todayIncome;
 
     @Column(name = "yesterday_income")
     private Integer yesterdayIncome;
@@ -52,21 +55,21 @@ public class AccountEntity implements Serializable {
     @NotNull
     private Boolean userVisiable;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_detail_id")
+    @Builder.Default
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "account")
     List<AccountDetailEntity> accountDetails = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_stock_id")
+    @Builder.Default
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "account")
     List<AccountStockDetailEntity> accountStocks = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "trade_id")
+    @Builder.Default
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "account")
     List<TradingDetailEntity> tradingEntities = new ArrayList<>();
 
     //FK
     @ManyToOne
-    @JoinColumn(name = "user_sequence")
+    @JoinColumn(name = "customer_info_id")
     private CustomerInformationEntity customer;
 
 

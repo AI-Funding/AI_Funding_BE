@@ -2,9 +2,11 @@ package com.AiFunding.ToBi.entity;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +21,12 @@ import java.util.List;
 public class StockEntity implements Serializable {
 
     @Id
-    @Column(name = "item_id", length = 20)
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    @Column(name = "stock_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "stock_code", unique = true, length = 20)
+    private String stockCode;
 
     @Column(name = "item_name", length = 50)
     @NotNull
@@ -31,10 +36,17 @@ public class StockEntity implements Serializable {
     @NotNull
     private Integer nowPrice;
 
-    @OneToMany(mappedBy = "stockEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @CreatedDate
+    @Column(name = "create_at")
+    private LocalDateTime createAt;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "stock")
     List<StockPriceByDayEntity> stockPriceByDayEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "stockEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "stock")
     List<TradingDetailEntity> tradingDetailEntities = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "stock")
+    List<AccountStockDetailEntity> accountStockDetailEntities = new ArrayList<>();
 
 }

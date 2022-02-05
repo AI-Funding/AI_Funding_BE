@@ -30,20 +30,16 @@ public class CustomerEntityTest {
         List<AccountEntity> accountEntities = new ArrayList<>();
 
         CustomerInformationEntity custom = CustomerInformationEntity.builder()
-                .userId("해찬유").nickname("유해찬").loginType("1").email("haechan@naver.com")
-
-                .build();
+                        .userId("해찬유").email("haechan@naver.com").nickname("유해찬").loginType("00")
+                        .createAt(LocalDateTime.now()).modifiedAt(LocalDateTime.now()).password("1234").build();
         customRepository.save(custom);
 
         StockEntity stock = StockEntity.builder()
-                .id("A1234")
-                .itemName("해찬").nowPrice(12312).build();
+                        .nowPrice(12000).stockCode("A12354").itemName("준환전자").build();
         stockRepository.save(stock);
 
         Optional<CustomerInformationEntity> findCustom = customRepository.findById(1L);
         assertThat(findCustom.get().getNickname()).isEqualTo("유해찬");
-
-
 
     }
 

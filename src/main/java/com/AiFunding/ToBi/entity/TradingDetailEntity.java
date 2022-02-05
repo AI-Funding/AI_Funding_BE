@@ -22,13 +22,6 @@ public class TradingDetailEntity implements Serializable {
     @Column(name = "trade_id")
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY) // 다대일 관계로 지연로딩을 사용해서 매핑함
-//    @JoinColumn(name = "account_number") // account_number라는 컬럼을 통해 join함
-//    private AccountEntity accountEntity;
-
-//    @Column(name = "item_id", unique = true) // unique속성을 통해서 유일한 값으로 설정합니다. Column을 매핑합니다.
-//    private String itemId;
-
     @Column(name = "trading_type", length = 2)
     @NotNull
     private String tradingType;
@@ -47,6 +40,10 @@ public class TradingDetailEntity implements Serializable {
     private LocalDateTime createAt;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_id")
-    private StockEntity stockEntity;
+    @JoinColumn(name = "stock_id")
+    private StockEntity stock;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private AccountEntity account;
 }

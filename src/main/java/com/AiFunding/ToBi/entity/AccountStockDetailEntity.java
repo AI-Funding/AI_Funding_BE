@@ -25,10 +25,6 @@ public class AccountStockDetailEntity implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "item_id", length = 20)
-    private String itemId;
-
-    @NotNull
     @Column(name = "stock_amount")
     private Integer stockAmount;
 
@@ -46,6 +42,10 @@ public class AccountStockDetailEntity implements Serializable {
 
     //fk
     @ManyToOne
-    @JoinColumn(name = "account_number")
+    @JoinColumn(name = "account_id")
     private AccountEntity account;
+
+    @ManyToOne
+    @JoinColumn(name = "stock_id")
+    private StockEntity stock;
 }

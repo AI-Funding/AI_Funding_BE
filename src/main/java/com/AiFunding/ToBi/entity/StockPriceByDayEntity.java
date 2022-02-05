@@ -18,7 +18,7 @@ public class StockPriceByDayEntity implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "stock_id")
+    @Column(name = "stock_price_by_day_id")
     private Long id;
 
     @Column(name = "end_price")
@@ -32,8 +32,7 @@ public class StockPriceByDayEntity implements Serializable{
     private LocalDateTime createAt;
 
     @ManyToOne
-    @JoinColumn(name = "item_id")
-    private StockEntity stockEntity;
-
+    @JoinColumn(name = "stock_id")
+    private StockEntity stock;
 
 }
