@@ -20,7 +20,7 @@ import java.util.List;
 @ToString // ToString 오버라이딩
 @Getter // Getter 사용
 @Table(name = "ACCOUNT") // ACCOUNT이라는 이름의 테이블을 매핑해줍니다.
-public class AccountEntity implements Serializable {
+public class AccountEntity extends BaseCreateModifiedEntity implements Serializable {
 
     @Id
     @Column(name = "account_id")
@@ -38,14 +38,6 @@ public class AccountEntity implements Serializable {
 
     @Column(name = "yesterday_income")
     private Integer yesterdayIncome;
-
-    @CreatedDate // 자동으로 생성된 날짜가 들어가게 함
-    @Column(name = "create_at")
-    private LocalDateTime createAt;
-
-    @LastModifiedDate // 자동으로 데이터를 업데이트 할 때 날짜가 들어가게 됩니다.
-    @Column(name = "modified_at")
-    private LocalDateTime modifiedAt;
 
     @Column(name = "ai_type")
     @NotNull

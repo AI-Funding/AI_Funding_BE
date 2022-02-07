@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @ToString // ToString 오버라이딩
 @Getter // Getter 사용
 @Table(name = "TRADING_DETAIL") // TRADING_DETAIL 이름의 테이블을 매핑해줍니다.
-public class TradingDetailEntity implements Serializable {
+public class TradingDetailEntity extends BaseCreateEntity implements Serializable {
 
     @Id // PK를 설정해줍니다.
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT로 DB에 ID생성을 위임합니다.
@@ -34,10 +34,6 @@ public class TradingDetailEntity implements Serializable {
     @NotNull
     private Integer tradingAmount;
 
-    @CreatedDate
-    @Column(name = "create_at")
-    @NotNull
-    private LocalDateTime createAt;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "stock_id")

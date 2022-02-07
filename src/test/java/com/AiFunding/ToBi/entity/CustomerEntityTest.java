@@ -31,7 +31,7 @@ public class CustomerEntityTest {
 
         CustomerInformationEntity custom = CustomerInformationEntity.builder()
                         .userId("해찬유").email("haechan@naver.com").nickname("유해찬").loginType("00")
-                        .createAt(LocalDateTime.now()).modifiedAt(LocalDateTime.now()).password("1234").build();
+                        .password("1234").build();
         customRepository.save(custom);
 
         StockEntity stock = StockEntity.builder()
@@ -42,5 +42,6 @@ public class CustomerEntityTest {
         assertThat(findCustom.get().getNickname()).isEqualTo("유해찬");
 
     }
+
 
 }

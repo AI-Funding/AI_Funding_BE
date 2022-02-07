@@ -17,7 +17,7 @@ import java.util.List;
 @ToString // ToString을 오버라이딩합니다.
 @Getter // Getter를 사용합니다.
 @Table(name = "CUSTOMER_INFO")  // CUSTOMER_INFO라는 테이블에 매핑을 합니다.
-public class CustomerInformationEntity {
+public class CustomerInformationEntity extends BaseCreateModifiedEntity {
 
     @Id // PK 값을 설정합니다.
     @Column(name = "customer_info_id")
@@ -31,16 +31,6 @@ public class CustomerInformationEntity {
     @Column(name = "user_id", length = 50, unique = true)
     @NotNull
     private String userId;
-
-    @CreatedDate
-    @Column(name = "create_at")
-    @NotNull
-    private LocalDateTime createAt;
-
-    @LastModifiedDate
-    @Column(name = "modified_at")
-    @NotNull
-    private LocalDateTime modifiedAt;
 
     @Column(length = 100)
     @NotNull

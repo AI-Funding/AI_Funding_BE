@@ -18,7 +18,7 @@ import java.util.List;
 @ToString // ToString 오버라이딩
 @Getter // Getter 사용
 @Table(name = "STOCK") // STOCK이라는 이름의 테이블을 매핑해줍니다.
-public class StockEntity implements Serializable {
+public class StockEntity extends BaseCreateEntity implements Serializable {
 
     @Id
     @Column(name = "stock_id")
@@ -36,9 +36,6 @@ public class StockEntity implements Serializable {
     @NotNull
     private Integer nowPrice;
 
-    @CreatedDate
-    @Column(name = "create_at")
-    private LocalDateTime createAt;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "stock")
     List<StockPriceByDayEntity> stockPriceByDayEntities = new ArrayList<>();

@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @ToString // ToString 오버라이딩
 @Getter // Getter 사용
 @Table(name = "ACCOUNT_STOCK_DETAIL") // ACCOUNT_STOCK_DETAIL이라는 이름의 테이블을 매핑해줍니다.
-public class AccountStockDetailEntity implements Serializable {
+public class AccountStockDetailEntity extends BaseCreateEntity implements Serializable {
 
     @Id
     @Column(name = "account_stock_id")
@@ -36,9 +36,6 @@ public class AccountStockDetailEntity implements Serializable {
     @Column(name = "income")
     private Integer income;
 
-    @CreatedDate
-    @Column(name = "create_at")
-    private LocalDateTime createAt;
 
     //fk
     @ManyToOne

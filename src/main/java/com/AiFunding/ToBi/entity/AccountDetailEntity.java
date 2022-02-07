@@ -15,15 +15,15 @@ import java.time.LocalDateTime;
 @ToString // ToString 오버라이딩
 @Getter // Getter 사용
 @Table(name = "ACCOUNT_DETAIL") // ACCOUNT_DETAIL이라는 이름의 테이블을 매핑해줍니다.
-public class AccountDetailEntity implements Serializable {
+public class AccountDetailEntity extends BaseCreateEntity implements Serializable{
 
     @Id // PK를 설정해줍니다.
     @Column(name = "account_detail_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne // 다대일로 account_number와 매핑을 해줍니다. 또한, 타입은 지연로딩을 합니다.
-    @JoinColumn(name = "account_id") // account_number로 Join을 합니다.
+    @ManyToOne
+    @JoinColumn(name = "account_id")
     private AccountEntity account;
 
     @NotNull
@@ -34,8 +34,5 @@ public class AccountDetailEntity implements Serializable {
     @Column(name = "deposit_amount")
     private Long depositAmount;
 
-    @CreatedDate
-    @Column(name = "create_at")
-    private LocalDateTime createAt;
 
 }

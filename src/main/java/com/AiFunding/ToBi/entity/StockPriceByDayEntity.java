@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @ToString // ToString 오버라이딩
 @Getter // Getter 사용
 @Table(name = "STOCK_PRICE_BY_DAY") // STOCK_PRICE_BY_DAY이라는 이름의 테이블을 매핑해줍니다.
-public class StockPriceByDayEntity implements Serializable{
+public class StockPriceByDayEntity extends BaseCreateEntity implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +27,6 @@ public class StockPriceByDayEntity implements Serializable{
     @Column(name = "start_price")
     private Integer startPrice;
 
-    @CreatedDate
-    @Column(name = "create_at")
-    private LocalDateTime createAt;
 
     @ManyToOne
     @JoinColumn(name = "stock_id")
