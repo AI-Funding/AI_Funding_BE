@@ -21,6 +21,9 @@ import java.util.List;
 @Service
 public class HomeService {
 
+    private final static Double PURCHASE_FEE = 0.015;
+    private final static Double PUBLIC_TAX = 0.25;
+
     private final CustomerInformationRepository customerInformationRepository;
     private final StockRepository stockRepository;
 
@@ -29,8 +32,8 @@ public class HomeService {
         this.stockRepository = stockRepository;
     }
 
-    public UserResponseDto findUserInfo(final Long userSequence, final String loginType){
-        CustomerInformationEntity customer = customerInformationRepository.findByUserSequenceAndLoginType(userSequence,loginType);
+    public UserResponseDto findUserInfo(final Long id, final String loginType){
+        CustomerInformationEntity customer = customerInformationRepository.findByIdAndLoginType(id,loginType);
 
         return new UserResponseDto(customer.getNickname(),getAccountData(customer.getAccounts()));
 
@@ -53,17 +56,26 @@ public class HomeService {
     public List<StockListResponseDto> getStockData(AccountEntity account){
         List<StockListResponseDto> stockList = new ArrayList<>();
 
+        // 계좌 총 자산
         Integer balance = 0;
 
+        // 계좌가 가지고 있는 주식의 금액 보유량 구하기 -> 계좌에서 차지하는 비율을 구하기 위함
         for(AccountStockDetailEntity stocks : account.getAccountStocks()){
             balance += stocks.getAveragePrice() * stocks.getStockAmount();
         }
 
+
         for(AccountStockDetailEntity stocks : account.getAccountStocks()){
-            StockEntity stockEntity = stockRepository.findById(stocks.getItemId()).get();
-            stockList.add(new StockListResponseDto(stockEntity.getItemName(),
-                    stockEntity.getNowPrice(),stocks.getIncome(),
-                    (double) (stocks.getStockAmount()*stocks.getAveragePrice()/balance*100)));
+            //TODO: 해당 주식 id가 없을 경우 발생하는 오류 Exception 추가할 것
+
+            Double bookValue = (stocks.getAveragePrice()*PURCHASE_FEE) / stocks.getStockAmount();
+            Double profitAndLoss = (bookValue*stocks.getStockAmount()*(1 +PURCHASE_FEE + PUBLIC_TAX)) / stocks.getStockAmount();
+            Double profit = (stocks.getStock().getNowPrice() - profitAndLoss) / profitAndLoss * 100;
+
+            stockList.add(new StockListResponseDto(
+                    stocks.getStock().getItemName(),stocks.getStock().getNowPrice(),
+                    profit,(double)((stocks.getStockAmount() * stocks.getAveragePrice())/balance *100)
+            ));
         }
         Collections.sort(stockList,new StockComparator()); // 점유율에 대해서 내림차순으로 정렬
         return stockList;
