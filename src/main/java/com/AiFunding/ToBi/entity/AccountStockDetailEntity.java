@@ -17,16 +17,12 @@ import java.time.LocalDateTime;
 @ToString // ToString 오버라이딩
 @Getter // Getter 사용
 @Table(name = "ACCOUNT_STOCK_DETAIL") // ACCOUNT_STOCK_DETAIL이라는 이름의 테이블을 매핑해줍니다.
-public class AccountStockDetailEntity implements Serializable {
+public class AccountStockDetailEntity extends BaseCreateEntity implements Serializable {
 
     @Id
     @Column(name = "account_stock_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    @Column(name = "item_id", length = 20)
-    private String itemId;
 
     @NotNull
     @Column(name = "stock_amount")
@@ -40,12 +36,13 @@ public class AccountStockDetailEntity implements Serializable {
     @Column(name = "income")
     private Integer income;
 
-    @CreatedDate
-    @Column(name = "create_at")
-    private LocalDateTime createAt;
 
     //fk
     @ManyToOne
-    @JoinColumn(name = "account_number")
+    @JoinColumn(name = "account_id")
     private AccountEntity account;
+
+    @ManyToOne
+    @JoinColumn(name = "stock_id")
+    private StockEntity stock;
 }
