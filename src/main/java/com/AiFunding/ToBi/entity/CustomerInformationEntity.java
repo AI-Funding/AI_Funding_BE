@@ -17,30 +17,20 @@ import java.util.List;
 @ToString // ToString을 오버라이딩합니다.
 @Getter // Getter를 사용합니다.
 @Table(name = "CUSTOMER_INFO")  // CUSTOMER_INFO라는 테이블에 매핑을 합니다.
-public class CustomerInformationEntity {
+public class CustomerInformationEntity extends BaseCreateModifiedEntity {
 
     @Id // PK 값을 설정합니다.
-    @Column(name = "user_sequence") // Column 이름을 설정합니다.
+    @Column(name = "customer_info_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 데이터 베이스에게 ID 생성을 AUTO_INCREMENT로 위임합니다.
-    private Long userSequence;
+    private Long id;
 
     @Column(length = 50)
     @NotNull
     private String nickname;
 
-    @Column(name = "user_id", length = 50)
+    @Column(name = "user_id", length = 50, unique = true)
     @NotNull
     private String userId;
-
-    @CreatedDate
-    @Column(name = "create_at")
-    @NotNull
-    private LocalDateTime createAt;
-
-    @LastModifiedDate
-    @Column(name = "modified_at")
-    @NotNull
-    private LocalDateTime modifiedAt;
 
     @Column(length = 100)
     @NotNull
@@ -50,8 +40,14 @@ public class CustomerInformationEntity {
     @NotNull
     private String loginType;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
-    private List<AccountEntity> accounts;
+    private String password;
 
+    @Builder.Default
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
+    private List<AccountEntity> accounts = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "subscribe_info_id")
+    private SubscribeInfoEntity subscribeInfo;
 
 }
