@@ -30,14 +30,17 @@ public class AccountEntity extends BaseCreateModifiedEntity implements Serializa
     @Column(length = 30, name = "account_number", unique = true)
     private String accountNumber;
 
+    @Column(length = 50)
+    private String nickname;
+
     @Column
     private Long balance;
 
-    @Column(name = "today_income")
-    private Integer todayIncome;
+    @Column(name = "today_total_balance")
+    private Double todayIncome;
 
-    @Column(name = "yesterday_income")
-    private Integer yesterdayIncome;
+    @Column(name = "yesterday_total_balance")
+    private Double yesterdayIncome;
 
     @Column(name = "ai_type")
     @NotNull
