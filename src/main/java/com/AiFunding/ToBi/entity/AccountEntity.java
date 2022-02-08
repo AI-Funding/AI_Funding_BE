@@ -37,10 +37,10 @@ public class AccountEntity extends BaseCreateModifiedEntity implements Serializa
     private Long balance;
 
     @Column(name = "today_total_balance")
-    private Double todayTotalBalance;
+    private Long todayTotalBalance;
 
     @Column(name = "yesterday_total_balance")
-    private Double yesterdayTotalBalance;
+    private Long yesterdayTotalBalance;
 
     @Column(name = "ai_type")
     @NotNull
