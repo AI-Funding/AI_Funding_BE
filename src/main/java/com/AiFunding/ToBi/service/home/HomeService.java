@@ -82,7 +82,7 @@ public class HomeService {
 
             stockList.add(new StockListResponseDto(
                     stocks.getStock().getItemName(),stocks.getStock().getNowPrice(),
-                    profit,(double)Math.floor(accountPercent*100)/100.0
+                    Math.floor(profit*100)/100.0,(double)Math.floor(accountPercent*100)/100.0
             ));
         }
         Collections.sort(stockList,new StockComparator()); // 점유율에 대해서 내림차순으로 정렬
