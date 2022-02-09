@@ -23,13 +23,12 @@ public class HomeService {
 
     private final static Double PURCHASE_FEE = 0.015;
     private final static Double PUBLIC_TAX = 0.25;
+    private final static Integer INITIAL_PRICE = 10000000;
 
     private final CustomerInformationRepository customerInformationRepository;
-    private final StockRepository stockRepository;
 
-    public HomeService(CustomerInformationRepository customerInformationRepository, StockRepository stockRepository) {
+    public HomeService(CustomerInformationRepository customerInformationRepository) {
         this.customerInformationRepository = customerInformationRepository;
-        this.stockRepository = stockRepository;
     }
 
     public UserResponseDto findUserInfo(final Long id, final String loginType){
@@ -42,39 +41,48 @@ public class HomeService {
     public List<AccountListResponseDto> getAccountData(List<AccountEntity> accounts){
         List<AccountListResponseDto> accountData = new ArrayList<>();
 
-        // TODO: total, today 수익률 구하는 공식 생각해보기
-        for(AccountEntity entity : accounts){
-            accountData.add(new AccountListResponseDto("닉네임",entity.getBalance()
-            ,entity.getCreateAt(),30.3,10000,20.2,entity.getIncome(),
-                    getStockData(entity)));
+        for(AccountEntity account : accounts){
+            Long stockBalance = account.getBalance(); // 현재 보유하고 있는 주식의 총 금액
+
+            for(AccountStockDetailEntity stock : account.getAccountStocks()){ // 현재 보유하고 있는 주식의 총 금액을 더해주는 과정
+                stockBalance += (long) stock.getStockAmount() * stock.getAveragePrice();
+            }
+            Double todayIncome = (double)account.getTodayTotalBalance() / (double)account.getYesterdayTotalBalance() - 1.0;
+            Double totalIncome = (double) stockBalance / (double) INITIAL_PRICE - 1.0;
+
+            accountData.add(new AccountListResponseDto(account.getNickname(), stockBalance,account.getCreateAt()
+            ,Math.floor(todayIncome*100) / 100.0
+            , (account.getTodayTotalBalance()- account.getYesterdayTotalBalance())
+                    , Math.floor(totalIncome*100)/100.0, (stockBalance-INITIAL_PRICE),getStockData(account)));
         }
 
-        Collections.sort(accountData, new AccountComparator());
+        Collections.sort(accountData, new AccountComparator()); // createAt 별로 정렬
         return accountData;
     }
 
+    // Stock에 대한 하단 정보를 얻기 위한 메서드
     public List<StockListResponseDto> getStockData(AccountEntity account){
         List<StockListResponseDto> stockList = new ArrayList<>();
 
         // 계좌 총 자산
-        Integer balance = 0;
+        Long balance = 0L;
 
         // 계좌가 가지고 있는 주식의 금액 보유량 구하기 -> 계좌에서 차지하는 비율을 구하기 위함
         for(AccountStockDetailEntity stocks : account.getAccountStocks()){
-            balance += stocks.getAveragePrice() * stocks.getStockAmount();
+            balance += (long) stocks.getAveragePrice() * stocks.getStockAmount();
         }
 
 
         for(AccountStockDetailEntity stocks : account.getAccountStocks()){
             //TODO: 해당 주식 id가 없을 경우 발생하는 오류 Exception 추가할 것
 
-            Double bookValue = (stocks.getAveragePrice()*PURCHASE_FEE) / stocks.getStockAmount();
-            Double profitAndLoss = (bookValue*stocks.getStockAmount()*(1 +PURCHASE_FEE + PUBLIC_TAX)) / stocks.getStockAmount();
-            Double profit = (stocks.getStock().getNowPrice() - profitAndLoss) / profitAndLoss * 100;
+            Double profitAndLoss = (stocks.getAveragePrice()*stocks.getStockAmount()*(1 +PURCHASE_FEE + PUBLIC_TAX)) / stocks.getStockAmount(); // 손익단가
+            Double profit = (profitAndLoss - stocks.getStock().getNowPrice()) / profitAndLoss * 100; // 수익률
+            Double accountPercent = (double)stocks.getStockAmount() * (double)stocks.getAveragePrice() / (double)balance * 100.0;
 
             stockList.add(new StockListResponseDto(
                     stocks.getStock().getItemName(),stocks.getStock().getNowPrice(),
-                    profit,(double)((stocks.getStockAmount() * stocks.getAveragePrice())/balance *100)
+                    profit,(double)Math.floor(accountPercent*100)/100.0
             ));
         }
         Collections.sort(stockList,new StockComparator()); // 점유율에 대해서 내림차순으로 정렬

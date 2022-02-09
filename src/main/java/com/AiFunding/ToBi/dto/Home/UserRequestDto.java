@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserRequestDto {
 
-    @JsonProperty("user_sequence")
-    private Long userSequence;
+    @JsonProperty("customer_info_id")
+    private Long id;
 
     @JsonProperty("login_type")
     private String loginType;
 
-    public UserRequestDto(final Long userSequence, final String loginType){
-        this.userSequence = userSequence;
+    public UserRequestDto(final Long id, final String loginType){
+        this.id = id;
         this.loginType = loginType;
     }
 }

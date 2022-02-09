@@ -18,16 +18,16 @@ public class AccountListResponseDto {
 
     private Double todayIncome;
 
-    private Integer todayProfit;
+    private Long todayProfit;
 
     private Double totalIncome;
 
-    private Integer totalProfit;
+    private Long totalProfit;
 
     private List<StockListResponseDto> stocks;
 
     public AccountListResponseDto(final String nickname, final Long balance, final LocalDateTime createAt, final Double todayIncome
-    , final Integer todayProfit, final Double totalIncome, final Integer totalProfit, final List<StockListResponseDto> stocks){
+    , final Long todayProfit, final Double totalIncome, final Long totalProfit, final List<StockListResponseDto> stocks){
         this.nickname = nickname;
         this.balance = balance;
         this.createAt = createAt;
