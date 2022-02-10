@@ -12,8 +12,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/hello").permitAll() //원하는 uri antMatchers안에 넣기
-                .antMatchers("/home").permitAll()
+                .antMatchers("/api/hello").permitAll()
+                .antMatchers("/api/home").permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic();
         http.csrf().disable();
