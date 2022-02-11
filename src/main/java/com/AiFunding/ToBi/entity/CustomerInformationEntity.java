@@ -1,5 +1,6 @@
 package com.AiFunding.ToBi.entity;
 
+import com.AiFunding.ToBi.auth.Role;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -7,7 +8,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity // JPA가 사용하도록 Entity라는 어노테이션을 붙입니다.
@@ -17,7 +17,7 @@ import java.util.List;
 @ToString // ToString을 오버라이딩합니다.
 @Getter // Getter를 사용합니다.
 @Table(name = "CUSTOMER_INFO")  // CUSTOMER_INFO라는 테이블에 매핑을 합니다.
-public class CustomerInformationEntity {
+public class  CustomerInformationEntity {
 
     @Id // PK 값을 설정합니다.
     @Column(name = "user_sequence") // Column 이름을 설정합니다.
@@ -53,5 +53,17 @@ public class CustomerInformationEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
     private List<AccountEntity> accounts;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    public String getRoleKey() {
+        return this.role.getKey();
+    }
+
+    public CustomerInformationEntity update(String name) {
+        this.nickname=name;
+        return this;
+    }
 
 }
