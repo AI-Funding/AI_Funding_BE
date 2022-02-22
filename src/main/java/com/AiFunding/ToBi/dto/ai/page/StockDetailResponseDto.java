@@ -14,7 +14,7 @@ public class StockDetailResponseDto {
     private LocalDateTime createAt;
 
 
-    public StockDetailResponseDto(int endPrice, LocalDateTime createAt) {
+    public StockDetailResponseDto(final int endPrice,final LocalDateTime createAt) {
         this.endPrice = endPrice;
         this.createAt = createAt;
     }

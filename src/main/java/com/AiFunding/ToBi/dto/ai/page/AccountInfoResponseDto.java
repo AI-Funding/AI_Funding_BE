@@ -13,7 +13,7 @@ public class AccountInfoResponseDto {
     //주식리스트
     private List<StockInfoResponseDto> stocks;
 
-    public AccountInfoResponseDto(String accountName, List<StockInfoResponseDto> stocks) {
+    public AccountInfoResponseDto(final String accountName, final List<StockInfoResponseDto> stocks) {
         this.accountName = accountName;
         this.stocks = stocks;
     }
