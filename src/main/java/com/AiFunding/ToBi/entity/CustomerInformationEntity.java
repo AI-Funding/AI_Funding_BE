@@ -50,4 +50,9 @@ public class CustomerInformationEntity extends BaseCreateModifiedEntity {
     @JoinColumn(name = "subscribe_info_id")
     private SubscribeInfoEntity subscribeInfo;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
+    private List<PostEntity> posts = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
+    private List<CommentEntity> comments = new ArrayList<>();
 }

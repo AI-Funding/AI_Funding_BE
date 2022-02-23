@@ -1,7 +1,9 @@
 package com.AiFunding.ToBi.dto.Home;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +16,7 @@ public class AccountListResponseDto {
 
     private Long balance;
 
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createAt;
 
     private Double todayIncome;

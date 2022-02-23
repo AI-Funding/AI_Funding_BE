@@ -24,6 +24,7 @@ public class HomeController {
 
     @PostMapping("/home")
     public ResponseEntity<UserResponseDto> join(@RequestBody UserRequestDto userRequestDto){
+
         return ResponseEntity.ok().body(homeService.findUserInfo(userRequestDto.getId(), userRequestDto.getLoginType()));
     }
 
