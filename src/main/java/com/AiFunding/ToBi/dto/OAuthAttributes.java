@@ -7,6 +7,7 @@ import lombok.Getter;
 import java.util.Map;
 @Getter
 public class OAuthAttributes {
+    /*scope에 따라서 수정*/
     private Map<String, Object> attributes;
     private String nameAttributeKey;
     private String name;

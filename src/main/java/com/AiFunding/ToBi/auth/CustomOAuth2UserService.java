@@ -33,10 +33,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .getUserInfoEndpoint().getUserNameAttributeName();//로그인 진행 시 키가 되는 필드값. PK와 같은 의미
 
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName,
-                                                        oAuth2User.getAttributes());
+                                                        oAuth2User.getAttributes());//scope에 따라서 수정
 
         CustomerInformationEntity customerInformationEntity = saveOrUpdate(attributes);
-        httpSession.setAttribute("user", new SessionUser(customerInformationEntity));
+        httpSession.setAttribute("user", new SessionUser(customerInformationEntity));//세션에 사용자 정보 저장
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(customerInformationEntity.getRoleKey())),
                                                                                     attributes.getAttributes(),

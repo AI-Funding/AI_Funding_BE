@@ -38,7 +38,7 @@ out/
 
 ### properties 파일 ##
 /src/main/resources/develop.properties
-/src/main/resources/application-oauth.properties
+/src/main/resources/application-oauth.yml
 
 ### DS.store 파일 ###
 *.DS_Store
