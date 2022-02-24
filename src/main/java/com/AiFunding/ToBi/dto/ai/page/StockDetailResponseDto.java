@@ -1,5 +1,6 @@
 package com.AiFunding.ToBi.dto.ai.page;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ public class StockDetailResponseDto {
     //현재 종가 즉 전일 종가를 넘겨줌
     private int endPrice;
     //당일 날짜
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createAt;
 
 
