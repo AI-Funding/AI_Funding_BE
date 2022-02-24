@@ -13,6 +13,7 @@ public class HistoryListResponseDto {
     private String stockName;
 
     //거래 날짜
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime tradeDate;
 
     //거래 금액
