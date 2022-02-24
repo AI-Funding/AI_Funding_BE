@@ -18,10 +18,10 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/ai-page")
 public class AiPageController {
 
-    @PostMapping("/aipage")
+    @PostMapping("/stockitems")
     public ResponseEntity<CurrStockItemsResponseDto> aiPageMapping(){
         List<AccountInfoResponseDto> accounts = new ArrayList<>();
 
