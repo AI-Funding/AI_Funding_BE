@@ -16,13 +16,9 @@ import java.time.LocalDateTime;
 public class SubscribeInfoEntity implements Serializable {
 
     @Id // PK를 설정해줍니다.
-    @Column(name = "subscribe_id")
+    @Column(name = "subscribe_info_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-//    @OneToOne(fetch = FetchType.LAZY) // 지연로딩을 사용하고 일대일 관계를 매핑합니다.
-//    @JoinColumn(name = "user_sequence") // Join을 사용하기 위한 컬럼은 user_sequence 입니다.
-//    private CustomerInformationEntity customerInformation;
 
     @NotNull
     private Boolean subscription;
@@ -36,7 +32,6 @@ public class SubscribeInfoEntity implements Serializable {
     private LocalDateTime expireDate;
 
     //fk
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_sequence")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "subscribeInfo")
     private CustomerInformationEntity customer;
 }
