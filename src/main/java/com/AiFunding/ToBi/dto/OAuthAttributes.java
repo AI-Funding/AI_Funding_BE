@@ -12,14 +12,16 @@ public class OAuthAttributes {
     private String nameAttributeKey;
     private String name;
     private String email;
+    private String loginType;
 
     @Builder
     public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name,
-                           String email) {
+                           String email, String loginType) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
-        this.email=email;
+        this.email = email;
+        this.loginType = loginType;
     }
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName,

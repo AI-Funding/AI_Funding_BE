@@ -18,14 +18,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()//X-Frame-Options 비활성화
                 .and()
                     .authorizeRequests() // URL별 권한 권리
-                    .antMatchers("/login").permitAll()
+                    .antMatchers("/").permitAll()
                     .anyRequest().authenticated()//그 외 요청에는 로그인이 필요
                 .and()
                     .logout()
-                        .logoutSuccessUrl("/로그인페이지")//로그아웃하면 로그인 페이지로 이동
+                        .logoutSuccessUrl("/")//로그아웃하면 로그인 페이지로 이동
                 .and()
                     .oauth2Login()
-                        .userInfoEndpoint()
+                        .userInfoEndpoint()//로그인 성공 이후 설정 시작
                             .userService(customOAuth2UserService);
         super.configure(http);
     }
