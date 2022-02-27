@@ -15,6 +15,7 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class AuthController {
 
+
     private final OAuthService oAuthService;
 
     @RequestMapping(value = "/oauth2/code/kakao")
