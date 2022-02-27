@@ -42,6 +42,9 @@ public class CustomerInformationEntity extends BaseCreateModifiedEntity {
 
     private String password;
 
+    @Column(name = "refresh_token", length = 255)
+    private String refreshToken;
+
     @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
     private List<AccountEntity> accounts = new ArrayList<>();
