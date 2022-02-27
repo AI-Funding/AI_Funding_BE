@@ -36,7 +36,7 @@ public class CustomerInformationEntity extends BaseCreateModifiedEntity {
     @NotNull
     private String email;
 
-    @Column(name = "login_type", length = 2)
+    @Column(name = "login_type", length = 20)
     @NotNull
     private String loginType;
 
