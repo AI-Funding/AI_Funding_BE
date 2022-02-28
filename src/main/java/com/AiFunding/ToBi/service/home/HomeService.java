@@ -7,12 +7,11 @@ import com.AiFunding.ToBi.entity.AccountEntity;
 import com.AiFunding.ToBi.entity.AccountStockDetailEntity;
 import com.AiFunding.ToBi.entity.CustomerInformationEntity;
 import com.AiFunding.ToBi.mapper.CustomerInformationRepository;
-import com.AiFunding.ToBi.service.comparator.AccountComparator;
-import com.AiFunding.ToBi.service.comparator.StockComparator;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -54,7 +53,7 @@ public class HomeService {
                     , Math.floor(totalIncome*100)/100.0, (stockBalance-INITIAL_PRICE),getStockData(account)));
         }
 
-        Collections.sort(accountData, new AccountComparator()); // createAt 별로 정렬
+        Collections.sort(accountData, Comparator.comparing(AccountListResponseDto::getCreateAt)); // createAt 별로 정렬
         return accountData;
     }
 
@@ -82,7 +81,11 @@ public class HomeService {
                     Math.floor(profit*100)/100.0,(double)Math.floor(accountPercent*100)/100.0
             ));
         }
-        Collections.sort(stockList,new StockComparator()); // 점유율에 대해서 내림차순으로 정렬
+        Collections.sort(stockList,(StockListResponseDto s1, StockListResponseDto s2)->{
+            if (s1.getPercent_by_account() < s2.getPercent_by_account()) return 1;
+            else if (s1.getPercent_by_account() > s2.getPercent_by_account()) return -1;
+            return 0;
+        }); // 점유율에 대해서 내림차순으로 정렬
         return stockList;
     }
 
