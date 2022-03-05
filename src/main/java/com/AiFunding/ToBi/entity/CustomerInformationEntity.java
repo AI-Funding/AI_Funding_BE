@@ -36,11 +36,14 @@ public class CustomerInformationEntity extends BaseCreateModifiedEntity {
     @NotNull
     private String email;
 
-    @Column(name = "login_type", length = 2)
+    @Column(name = "login_type", length = 20)
     @NotNull
     private String loginType;
 
     private String password;
+
+    @Column(name = "refresh_token", length = 255)
+    private String refreshToken;
 
     @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
