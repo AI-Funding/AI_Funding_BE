@@ -10,14 +10,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class StockDetailResponseDto {
     //현재 종가 즉 전일 종가를 넘겨줌
-    private int endPrice;
+    private int createAtPrice;
     //당일 날짜
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createAt;
 
 
-    public StockDetailResponseDto(final int endPrice,final LocalDateTime createAt) {
-        this.endPrice = endPrice;
+    public StockDetailResponseDto(final int createAtPrice,final LocalDateTime createAt) {
+        this.createAtPrice = createAtPrice;
         this.createAt = createAt;
     }
 
