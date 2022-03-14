@@ -37,15 +37,16 @@ public class HistoryService {
                 String tradeType = trading.getTradingType();                //거래 종류
                 Integer tradingAmount = trading.getTradingAmount();         //거래 수량
                 Long tradingPrice = trading.getTradingPrice();              //매수/도 가
-                Long totalPrice = (long)tradingAmount * tradingPrice;       //거래 금액
-                Integer currentPrice = trading.getStock().getNowPrice();    //단가
+                Long totalPrice = trading.getTradingPrice();                //총 거래 금액
+                Long currentPrice = totalPrice / (long)tradingAmount;       //단가, 1주당 가격
 
                 historyDtoList.add(new HistoryListResponseDto(trading.getStock().getItemName(), trading.getCreateAt(),
-                        totalPrice, tradeType, tradingAmount, new Long(currentPrice), tradingPrice));
+                        totalPrice, tradeType, tradingAmount, currentPrice, tradingPrice));
             }
 
         }
-
+        
+        Collections.sort(historyDtoList, Comparator.comparing(HistoryListResponseDto::getTradeDate));   //시간 순 정렬
         return historyDtoList;
     }
 }
