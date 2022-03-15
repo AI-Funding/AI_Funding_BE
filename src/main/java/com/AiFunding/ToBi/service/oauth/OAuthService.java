@@ -1,5 +1,6 @@
 package com.AiFunding.ToBi.service.oauth;
 
+
 import com.AiFunding.ToBi.dto.auth.SocialLoginType;
 import com.AiFunding.ToBi.entity.CustomerInformationEntity;
 import com.AiFunding.ToBi.exception.AlreadyExistUser;
@@ -20,6 +21,7 @@ import java.util.List;
 public class OAuthService {
 
     private final CustomerInformationRepository customerInformationRepository;
+
     private final JwtTokenUtils jwtTokenUtils;
     private final HttpServletResponse response;
     private final List<SocialOauth> socialOauthList;
@@ -49,7 +51,7 @@ public class OAuthService {
             return false;
         }
         return true;
-    }
+
 
     public void saveUserInfo(HashMap<String, String> userInfo, String loginType) throws AlreadyExistUser {
         if(customerInformationRepository.findByUserIdAndLoginType(userInfo.get("id"),loginType) != null){
@@ -69,7 +71,5 @@ public class OAuthService {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("알 수 없는 SocialLoginType 입니다."));
     }
-
-
 
 }

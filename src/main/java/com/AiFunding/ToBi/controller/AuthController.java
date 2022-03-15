@@ -7,9 +7,14 @@ import com.AiFunding.ToBi.service.oauth.OAuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import com.AiFunding.ToBi.dto.auth.TokenDto;
+import com.AiFunding.ToBi.service.oauth.OAuthService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
+
 
 @RestController
 @CrossOrigin
@@ -38,5 +43,4 @@ public class AuthController {
         boolean isExistsUser = oAuthService.isExistsUser(socialLoginType,userId);
         return "index";
     }
-
 }
