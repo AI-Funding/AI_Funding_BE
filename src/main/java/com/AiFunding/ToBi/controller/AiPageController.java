@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class AiPageController {
     private final AiService aiService;
 
-    public AiPageController(AiService aiService) {
-        this.aiService = aiService;
-    }
 
-    @PostMapping("/stockitems")
-    public ResponseEntity<CurrStockItemsResponseDto> aiPageService(@RequestBody UserRequestDto userRequestDto) {
-        return ResponseEntity.ok().body(aiService.findUserCurrStockItems(userRequestDto.getId(), userRequestDto.getLoginType()));
+    public AiPageController(AiService aiService) {
+            this.aiService = aiService;
+        }
+
+        @PostMapping("/stockitems")
+        public ResponseEntity<CurrStockItemsResponseDto> aiPageService(@RequestBody UserRequestDto userRequestDto) {
+            return ResponseEntity.ok().body(aiService.findUserCurrStockItems(userRequestDto.getId(), userRequestDto.getLoginType()));
+        }
     }
-}

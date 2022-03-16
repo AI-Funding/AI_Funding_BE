@@ -1,4 +1,4 @@
-package com.AiFunding.ToBi.dto.Tab.History;
+package com.AiFunding.ToBi.dto.ai.History;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

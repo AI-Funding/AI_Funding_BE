@@ -1,4 +1,4 @@
-package com.AiFunding.ToBi.dto.Tab.History;
+package com.AiFunding.ToBi.dto.ai.History;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
