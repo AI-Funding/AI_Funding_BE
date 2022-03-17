@@ -2,10 +2,7 @@ package com.AiFunding.ToBi.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity // Jpa를 사용하기 위한 Entity 설정
 @NoArgsConstructor // 파라미터가 없는 생성자 생성
@@ -18,6 +15,7 @@ public class TradeSignalEntity extends BaseCreateEntity{
 
     @Id
     @Column(name = "trade_signal_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "stock_name")
