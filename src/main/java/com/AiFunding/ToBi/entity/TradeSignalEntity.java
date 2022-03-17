@@ -28,5 +28,5 @@ public class TradeSignalEntity extends BaseCreateEntity{
     private String tradeModel;
 
     @Column(name = "trade_amount")
-    private String tradeAmount;
+    private Double tradeAmount;
 }
