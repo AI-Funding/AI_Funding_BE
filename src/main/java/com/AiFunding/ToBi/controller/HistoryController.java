@@ -1,9 +1,9 @@
 package com.AiFunding.ToBi.controller;
 
 import com.AiFunding.ToBi.dto.Home.UserRequestDto;
-import com.AiFunding.ToBi.dto.ai.History.HistoryResponseDto;
+import com.AiFunding.ToBi.dto.ai.History.AccountTradeHistoryResponseDto;
+import com.AiFunding.ToBi.dto.ai.History.TradeHistoryListResponseDto;
 import com.AiFunding.ToBi.service.ai.history.HistoryService;
-import com.AiFunding.ToBi.service.ai.page.AiService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +20,7 @@ public class HistoryController {
     }
 
     @PostMapping("/history")
-    public ResponseEntity<HistoryResponseDto> join(@RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<AccountTradeHistoryResponseDto> join(@RequestBody UserRequestDto userRequestDto) {
         return ResponseEntity.ok().body(historyService.findUserHistory(userRequestDto.getId(), userRequestDto.getLoginType()));
     }
 }
