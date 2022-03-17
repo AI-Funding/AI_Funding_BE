@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class HistoryListResponseDto {
+public class TradeHistoryResponseDto {
 
     //종목 이름
     private String stockName;
@@ -32,8 +32,8 @@ public class HistoryListResponseDto {
     //매수/도 가
     private Long tradePrice;
 
-    public HistoryListResponseDto(final String stockName, final LocalDateTime tradeDate, final Long totalPrice,
-                                  final String tradeType, final Integer tradeAmount, final Long currentPrice, final Long tradePrice){
+    public TradeHistoryResponseDto(final String stockName, final LocalDateTime tradeDate, final Long totalPrice,
+                                   final String tradeType, final Integer tradeAmount, final Long currentPrice, final Long tradePrice){
         this.stockName = stockName;
         this.tradeDate = tradeDate;
         this.totalPrice = totalPrice;
