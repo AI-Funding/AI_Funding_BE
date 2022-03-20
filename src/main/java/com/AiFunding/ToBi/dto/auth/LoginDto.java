@@ -6,9 +6,10 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TokenDto {
-
+public class LoginDto {
     private String accessToken;
-    private String refreshToken;
 
+    private String UID;
+
+    private boolean isExistUser;
 }
