@@ -1,19 +1,16 @@
 package com.AiFunding.ToBi.controller;
 
+import com.AiFunding.ToBi.dto.auth.LoginDto;
 import com.AiFunding.ToBi.dto.auth.SocialLoginType;
 import com.AiFunding.ToBi.dto.auth.TokenDto;
 import com.AiFunding.ToBi.entity.CustomerInformationEntity;
 import com.AiFunding.ToBi.service.oauth.OAuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.AiFunding.ToBi.dto.auth.TokenDto;
-import com.AiFunding.ToBi.service.oauth.OAuthService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 
 @RestController
@@ -34,13 +31,45 @@ public class AuthController {
     }
 
     @PostMapping(value = "/callback")
-    public String callback(
+    public ResponseEntity<LoginDto> callback(
             @RequestParam(name = "socialLoginType") String socialLoginType,
-            @RequestParam(name = "code") String code) {
+            @RequestParam(name = "code") String code,
+            HttpServletResponse response) {
         log.info(">> 소셜 로그인 API 서버로부터 받은 code :: {}", code);
         String accessToken = oAuthService.requestAccessToken(SocialLoginType.valueOf(socialLoginType), code);
         String userId = oAuthService.requestUserInfo(SocialLoginType.valueOf(socialLoginType), code);
-        boolean isExistsUser = oAuthService.isExistsUser(socialLoginType,userId);
-        return "index";
+        if(oAuthService.isExistsUser(socialLoginType,userId)){
+            TokenDto tokens = oAuthService.signIn(userId, socialLoginType);
+            Cookie cookie = new Cookie("refreshToken", tokens.getRefreshToken());
+            cookie.setMaxAge(90 * 24 * 60 * 60);//90일 유지
+            cookie.setSecure(true);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+
+            response.addCookie(cookie);
+
+            LoginDto loginDto = LoginDto.builder()
+                    .accessToken(tokens.getAccessToken())
+                    .UID(userId)
+                    .isExistUser(true)
+                    .build();
+            return ResponseEntity.ok().body(loginDto);
+        }
+        Cookie cookie = new Cookie("refreshToken", null);
+        cookie.setMaxAge(90 * 24 * 60 * 60);//90일 유지
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+
+        response.addCookie(cookie);
+
+        LoginDto loginDto = LoginDto.builder()
+                .accessToken(null)
+                .UID(userId)
+                .isExistUser(false)
+                .build();
+        return ResponseEntity.ok().body(loginDto);
     }
+
+
 }
