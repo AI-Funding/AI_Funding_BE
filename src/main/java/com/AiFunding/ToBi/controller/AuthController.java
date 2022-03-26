@@ -1,8 +1,6 @@
 package com.AiFunding.ToBi.controller;
 
-import com.AiFunding.ToBi.dto.auth.LoginDto;
-import com.AiFunding.ToBi.dto.auth.SocialLoginType;
-import com.AiFunding.ToBi.dto.auth.TokenDto;
+import com.AiFunding.ToBi.dto.auth.*;
 import com.AiFunding.ToBi.entity.CustomerInformationEntity;
 import com.AiFunding.ToBi.service.oauth.OAuthService;
 import lombok.RequiredArgsConstructor;
@@ -70,6 +68,36 @@ public class AuthController {
                 .build();
         return ResponseEntity.ok().body(loginDto);
     }
+
+
+    @PostMapping(value = "/signUp")
+    public ResponseEntity<LoginResponseDto> signUp(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
+        TokenDto tokens = oAuthService.signUp(loginRequestDto);
+        Cookie cookie = new Cookie("refreshToken", tokens.getRefreshToken());
+        cookie.setMaxAge(90 * 24 * 60 * 60);//90일 유지
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+
+        response.addCookie(cookie);
+
+        LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+                .accessToken(tokens.getAccessToken())
+                .UID(loginRequestDto.getUID())
+                .expireTime("")
+                .build();
+        return ResponseEntity.ok().body(loginResponseDto);
+    }
+
+   @PostMapping(value = "/emailDuplicate")
+    DuplicateDto emailDuplicate(){
+
+   }
+
+   @PostMapping(value = "/nameDuplicate") //TODO: 중복검사 수정
+    DuplicateDto nameDuplicate(){
+
+   }
 
 
 }
