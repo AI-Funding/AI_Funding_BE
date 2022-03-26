@@ -70,7 +70,7 @@ public class AuthController {
     }
 
 
-    @PostMapping(value = "/signUp")
+    @PostMapping(value = "/sign-up")
     public ResponseEntity<LoginResponseDto> signUp(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
         TokenDto tokens = oAuthService.signUp(loginRequestDto);
         Cookie cookie = new Cookie("refreshToken", tokens.getRefreshToken());
@@ -89,15 +89,14 @@ public class AuthController {
         return ResponseEntity.ok().body(loginResponseDto);
     }
 
-   @PostMapping(value = "/emailDuplicate")
+   /*@PostMapping(value = "/email-duplicate")
     DuplicateDto emailDuplicate(){
 
    }
 
-   @PostMapping(value = "/nameDuplicate") //TODO: 중복검사 수정
+   @PostMapping(value = "/name-duplicate") //TODO: 중복검사 수정
     DuplicateDto nameDuplicate(){
 
-   }
-
+   }*/
 
 }
