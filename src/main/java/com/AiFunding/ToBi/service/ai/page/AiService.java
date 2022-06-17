@@ -1,5 +1,9 @@
 package com.AiFunding.ToBi.service.ai.page;
 
+import com.AiFunding.ToBi.dto.ai.AiResponseDto;
+import com.AiFunding.ToBi.dto.ai.History.AccountTradeHistoryResponseDto;
+import com.AiFunding.ToBi.dto.ai.History.TradeHistoryListResponseDto;
+import com.AiFunding.ToBi.dto.ai.History.TradeHistoryResponseDto;
 import com.AiFunding.ToBi.dto.ai.page.AccountInfoResponseDto;
 import com.AiFunding.ToBi.dto.ai.page.CurrStockItemsResponseDto;
 import com.AiFunding.ToBi.dto.ai.page.StockDetailResponseDto;
@@ -14,6 +18,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -34,11 +40,10 @@ public class AiService {
     }
 
     //id와 loginType을 가지는 Entitiy를 찾아서 DTO에 담고 반환
-    public CurrStockItemsResponseDto findUserCurrStockItems(final Long id, final String loginType) {
+    public AiResponseDto findUserInfo(final Long id, final String loginType) {
         CustomerInformationEntity customerInfo = customerInformationRepository.findByIdAndLoginType(id, loginType);//customerinformation
 
-
-        return new CurrStockItemsResponseDto(getAccountDtoList(customerInfo.getAccounts()));
+        return new AiResponseDto(new CurrStockItemsResponseDto(getAccountDtoList(customerInfo.getAccounts())), new AccountTradeHistoryResponseDto(getAccountHistoryDtoList(customerInfo.getAccounts())));//CurrStockItemsResponseDto(getAccountDtoList(customerInfo.getAccounts()));
     }
 
     //계좌이름과 보유주식리스트를 계좌DTO에 담아서  반환
@@ -83,6 +88,36 @@ public class AiService {
             stockDetailDtoList.add(new StockDetailResponseDto(stockPriceByDay.getEndPrice(), stockPriceByDay.getCreateAt()));
         }
         return stockDetailDtoList;
+    }
+
+//거래내역===================================================================================================================================
+    // 거래내역 관련 데이터 리스트 반환
+    public List<TradeHistoryListResponseDto> getAccountHistoryDtoList(List<AccountEntity> accounts){
+        List<TradeHistoryListResponseDto> tradeHistoryListResponseDtos = new ArrayList<>();
+
+        for(AccountEntity account : accounts){
+            tradeHistoryListResponseDtos.add(new TradeHistoryListResponseDto(account.getNickname(), getHistoryDtoList(account.getTradingEntities())));  //new TradeHistoryListResponseDto(account.getNickname(), getHistoryDtoList(account.getTradingEntities()))
+        }
+
+        return tradeHistoryListResponseDtos;
+    }
+
+    public List<TradeHistoryResponseDto> getHistoryDtoList(List<TradingDetailEntity> tradings){
+        List<TradeHistoryResponseDto> historyDtoList = new ArrayList<>();
+
+        for(TradingDetailEntity trading : tradings){
+            String tradeType = trading.getTradingType();                //거래 종류
+            Integer tradingAmount = trading.getTradingAmount();         //거래 수량
+            Long tradingPrice = trading.getTradingPrice();              //매수/도 가
+            Long totalPrice = trading.getTradingPrice();                //총 거래 금액
+            Long currentPrice = totalPrice / (long)tradingAmount;       //단가, 1주당 가격
+
+            historyDtoList.add(new TradeHistoryResponseDto(trading.getStock().getItemName(), trading.getCreateAt(),
+                    totalPrice, tradeType, tradingAmount, currentPrice, tradingPrice));
+        }
+
+        Collections.sort(historyDtoList, Comparator.comparing(TradeHistoryResponseDto::getTradeDate));   //시간 순 정렬
+        return historyDtoList;
     }
 
 }
