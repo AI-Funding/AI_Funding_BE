@@ -1,7 +1,7 @@
 package com.AiFunding.ToBi.controller;
 
 import com.AiFunding.ToBi.dto.Home.UserRequestDto;
-import com.AiFunding.ToBi.dto.ai.page.CurrStockItemsResponseDto;
+import com.AiFunding.ToBi.dto.ai.AiResponseDto;
 import com.AiFunding.ToBi.service.ai.page.AiService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,11 +15,11 @@ public class AiPageController {
     private final AiService aiService;
 
     public AiPageController(AiService aiService) {
-        this.aiService = aiService;
-    }
+            this.aiService = aiService;
+        }
 
-    @PostMapping("/stockitems")
-    public ResponseEntity<CurrStockItemsResponseDto> aiPageService(@RequestBody UserRequestDto userRequestDto) {
-        return ResponseEntity.ok().body(aiService.findUserCurrStockItems(userRequestDto.getId(), userRequestDto.getLoginType()));
+        @PostMapping
+        public ResponseEntity<AiResponseDto> aiPageService(@RequestBody UserRequestDto userRequestDto) {
+            return ResponseEntity.ok().body(aiService.findUserInfo(userRequestDto.getId(), userRequestDto.getLoginType()));
+        }
     }
-}
