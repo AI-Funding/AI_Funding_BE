@@ -8,6 +8,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class AccountProfitResponseDto {
+    //투자 AI 이름
+    String aiName;
     //계좌 이름
     String accountName;
     //총 평가 금액
@@ -24,6 +26,7 @@ public class AccountProfitResponseDto {
     List<ProfitDetailResponseDto> profitDetails;
 
     public AccountProfitResponseDto(
+            final String aiName,
             final String accountName,
             final Long todayTotalBalance,
             final Double totalProfitPersent,
@@ -31,6 +34,7 @@ public class AccountProfitResponseDto {
             final Long todayProfitWon,
             final Double todayProfitPersent,
             final List<ProfitDetailResponseDto> profitDetails) {
+        this.aiName = aiName;
         this.accountName = accountName;
         this.todayTotalBalance = todayTotalBalance;
         this.totalProfitPersent = totalProfitPersent;
