@@ -9,12 +9,11 @@ import java.util.List;
 @NoArgsConstructor
 public class ProfitCheckResponseDto {
     //계좌개수
-    private Long accountCount;
+    private int accountCount;
     //계좌리스트AccountProfitResponseDto List
     private List<AccountProfitResponseDto> accountProfitResponseDtoList;
 
-    public ProfitCheckResponseDto(final List<AccountProfitResponseDto> accountProfitResponseDtoList,
-                                  final Long accountCount) {
+    public ProfitCheckResponseDto(final List<AccountProfitResponseDto> accountProfitResponseDtoList, final int accountCount) {
         this.accountProfitResponseDtoList = accountProfitResponseDtoList;
         this.accountCount = accountCount;
     }
