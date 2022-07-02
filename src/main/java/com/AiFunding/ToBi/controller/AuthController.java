@@ -71,5 +71,15 @@ public class AuthController {
         return ResponseEntity.ok().body(loginDto);
     }
 
+    @GetMapping("/duplicate/{email}")
+    public ResponseEntity<Boolean> checkEmailDuplicate(@PathVariable String email){
+        return ResponseEntity.ok(oAuthService.isEmailDuplicated(email));
+    }
 
+    @GetMapping("/duplicate/{nickName}")
+    public ResponseEntity<Boolean> checknicknameDuplicate(@PathVariable String nickName){
+        return ResponseEntity.ok(oAuthService.isNicknameDuplicated(nickName));
+    }
 }
+
+

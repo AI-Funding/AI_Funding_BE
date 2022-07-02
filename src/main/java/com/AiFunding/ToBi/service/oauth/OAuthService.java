@@ -52,6 +52,16 @@ public class OAuthService {
         return true;
     }
 
+    public boolean isEmailDuplicated(String email){
+        if(customerInformationRepository.existsByEmail(email)==null) return false;
+        return true;
+    }
+
+    public boolean isNicknameDuplicated(String nickname){
+        if(customerInformationRepository.existsByNickname(nickname)==null) return false;
+        return true;
+    }
+
     public void saveUserInfo(HashMap<String, String> userInfo, String loginType) throws AlreadyExistUser {
         if (customerInformationRepository.findByUserIdAndLoginType(userInfo.get("id"), loginType) != null) {
             throw new AlreadyExistUser();
