@@ -13,9 +13,12 @@ public class TradeSignalDetailDto {
 
     private Integer tradeAmount;
 
-    TradeSignalDetailDto(final String stockName, final Integer tradeSignal, final Integer tradeAmount){
+    private String tradeModel;
+
+    TradeSignalDetailDto(final String stockName, final Integer tradeSignal, final Integer tradeAmount, final String tradeModel){
         this.stockName = stockName;
         this.tradeAmount = tradeAmount;
         this.tradeSignal = tradeSignal;
+        this.tradeModel = tradeModel;
     }
 }
