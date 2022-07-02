@@ -76,7 +76,7 @@ public class AuthController {
     }
 
     @GetMapping("/duplicate/{nickName}")
-    public ResponseEntity<Boolean> checknicknameDuplicate(@PathVariable String nickName){
+    public ResponseEntity<Boolean> checkNicknameDuplicate(@PathVariable String nickName){
         return ResponseEntity.ok(oAuthService.isNicknameDuplicated(nickName));
     }
 }
