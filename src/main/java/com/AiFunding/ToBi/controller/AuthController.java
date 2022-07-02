@@ -60,7 +60,6 @@ public class AuthController {
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-
         response.addCookie(cookie);
 
         LoginDto loginDto = LoginDto.builder()
@@ -71,5 +70,15 @@ public class AuthController {
         return ResponseEntity.ok().body(loginDto);
     }
 
+    @GetMapping("/duplicate/{email}")
+    public ResponseEntity<Boolean> checkEmailDuplicate(@PathVariable String email){
+        return ResponseEntity.ok(oAuthService.isEmailDuplicated(email));
+    }
 
+    @GetMapping("/duplicate/{nickName}")
+    public ResponseEntity<Boolean> checkNicknameDuplicate(@PathVariable String nickName){
+        return ResponseEntity.ok(oAuthService.isNicknameDuplicated(nickName));
+    }
 }
+
+

@@ -46,13 +46,18 @@ public class OAuthService {
     }
 
     public boolean isExistsUser(String loginType, String userId) {
-        if (customerInformationRepository.findByUserIdAndLoginType(userId, loginType) == null) {
-            return false;
-        }
-        return true;
+        return customerInformationRepository.existsUserIdAndLoginType(loginType,userId);
     }
 
-    public void saveUserInfo(HashMap<String, String> userInfo, String loginType) throws AlreadyExistUser {
+    public boolean isEmailDuplicated(String email){
+        return customerInformationRepository.existsByEmail(email);
+    }
+
+    public boolean isNicknameDuplicated(String nickname){
+        return customerInformationRepository.existsByNickname(nickname);
+    }
+
+    /*public void saveUserInfo(HashMap<String, String> userInfo, String loginType) throws AlreadyExistUser {
         if (customerInformationRepository.findByUserIdAndLoginType(userInfo.get("id"), loginType) != null) {
             throw new AlreadyExistUser();
         }
@@ -62,7 +67,7 @@ public class OAuthService {
                         .refreshToken(userInfo.get("refreshToken"))
                         .userId(userInfo.get("id")).build()
         );
-    }
+    }*/
 
     private SocialOauth findSocialOauthByType(SocialLoginType socialLoginType) {
         return socialOauthList.stream()
