@@ -11,11 +11,11 @@ public class TradeSignalDetailDto {
 
     private Integer tradeSignal;
 
-    private Integer tradeAmount;
+    private Double tradeAmount;
 
     private String tradeModel;
 
-    TradeSignalDetailDto(final String stockName, final Integer tradeSignal, final Integer tradeAmount, final String tradeModel){
+    TradeSignalDetailDto(final String stockName, final Integer tradeSignal, final Double tradeAmount, final String tradeModel){
         this.stockName = stockName;
         this.tradeAmount = tradeAmount;
         this.tradeSignal = tradeSignal;
