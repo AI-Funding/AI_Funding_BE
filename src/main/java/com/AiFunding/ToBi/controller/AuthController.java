@@ -60,7 +60,6 @@ public class AuthController {
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-
         response.addCookie(cookie);
 
         LoginDto loginDto = LoginDto.builder()
