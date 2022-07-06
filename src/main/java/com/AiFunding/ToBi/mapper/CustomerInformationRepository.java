@@ -12,4 +12,7 @@ public interface CustomerInformationRepository extends JpaRepository<CustomerInf
     CustomerInformationEntity findByIdAndLoginType(Long id, String loginType);
 
     Optional<CustomerInformationEntity> findByUserIdAndLoginType(String userId, String loginType);
+    boolean existsByEmail(String email);
+    boolean existsByNickname(String nickname);
+    boolean existsUserIdAndLoginType(String userId, String loginType);
 }
