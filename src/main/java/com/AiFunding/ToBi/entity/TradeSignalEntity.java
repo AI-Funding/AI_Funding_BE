@@ -11,6 +11,7 @@ import javax.persistence.*;
 @ToString // ToString 오버라이딩
 @Getter // Getter 사용
 @Table(name = "TRADE_SIGNAL") // SUBSCRIBE_INFO라는 이름의 테이블을 매핑해줍니다.
+@EqualsAndHashCode
 public class TradeSignalEntity extends BaseCreateEntity{
 
     @Id
