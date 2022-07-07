@@ -24,7 +24,7 @@ public class TradeSignalService {
     private final StockRepository stockRepository;
 
     // Buy를 해야할 Customer 정보를 가져옵니다.
-    public boolean getCustomerForBuy(TradeSignalRequestDto tradeSignal) {
+    public boolean getCustomerForBuy(TradeSignalRequestDto tradeSignal) throws Exception {
 
         List<CustomerInformationEntity> customers = customerRepository.findAll(); // 모든 customer 정보 가져오기
 
@@ -36,7 +36,7 @@ public class TradeSignalService {
         return true;
     }
 
-    public void accountByStock(AccountEntity account, TradeSignalRequestDto trade) {
+    public void accountByStock(AccountEntity account, TradeSignalRequestDto trade) throws Exception {
         Long accountBalance = account.getBalance(); // 계좌 보유 잔고
 
         for (TradeSignalDetailDto tradeDetail : trade.getStockInfo()) {
@@ -60,8 +60,8 @@ public class TradeSignalService {
         }
     }
 
-    public TradingDetailEntity buyOrSellTradingDetail(AccountEntity account, TradeSignalDetailDto trade, Long AccountBalance){
-        StockEntity stock = stockRepository.findByItemName(trade.getStockName());
+    public TradingDetailEntity buyOrSellTradingDetail(AccountEntity account, TradeSignalDetailDto trade, Long AccountBalance) throws Exception {
+        StockEntity stock = stockRepository.findByItemName(trade.getStockName()).orElseThrow(()-> new Exception());
         Integer stockPrice = (int)(stock.getNowPrice() * 1.015);
         Integer stockAmount = (int)(AccountBalance * trade.getTradeAmount() / stockPrice);
 
@@ -86,12 +86,13 @@ public class TradeSignalService {
         accountDetailRepository.save(accountDetail); // AccountDetail에 데이터 저장
     }
 
-    public void buyOrSellAccountStockDetail(TradingDetailEntity trade){
+    public void buyOrSellAccountStockDetail(TradingDetailEntity trade) throws Exception {
 
         AccountStockDetailEntity findData = accountStockDetailRepository
                 .findByStockAndId(trade.getStock(), trade.getAccount().getId()); // 각 주식에 맞는 데이터 값 가져오기
 
-        StockEntity stockInfo = stockRepository.findByItemName(findData.getStock().getItemName()); // stock 정보 가져오기
+        StockEntity stockInfo = stockRepository.findByItemName(findData.getStock().getItemName())
+                .orElseThrow(() -> new Exception()); // stock 정보 가져오기
 
         Long averagePrice = 0L;
 
