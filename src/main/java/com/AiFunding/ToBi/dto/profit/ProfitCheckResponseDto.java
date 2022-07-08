@@ -11,10 +11,10 @@ public class ProfitCheckResponseDto {
     //계좌개수
     private int accountNumber;
     //계좌리스트AccountProfitResponseDto List
-    private List<AccountProfitResponseDto> accountProfitResponseDtoList;
+    private List<AccountProfitResponseDto> account;
 
     public ProfitCheckResponseDto(final List<AccountProfitResponseDto> accountProfitResponseDtoList, final int accountNumber) {
-        this.accountProfitResponseDtoList = accountProfitResponseDtoList;
+        this.account = accountProfitResponseDtoList;
         this.accountNumber = accountNumber;
     }
 }
