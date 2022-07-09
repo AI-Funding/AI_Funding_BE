@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/profit-check")
 public class ProfitDetailController {
-    private ProfitDetailService profitDetailService;
+    private final ProfitDetailService profitDetailService;
 
     public ProfitDetailController(ProfitDetailService profitDetailService) {
         this.profitDetailService = profitDetailService;
