@@ -15,14 +15,14 @@ public class ProfitDetailResponseDto {
     private Long creatAtProfitWon;
     //해당 날짜
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
-    private LocalDateTime creatAt;
+    private LocalDateTime createAt;
 
     public ProfitDetailResponseDto(
             final Double creatAtProfitPersent,
             final Long creatAtProfitWon,
-            final LocalDateTime creatAt) {
+            final LocalDateTime createAt) {
         this.creatAtProfitPersent = creatAtProfitPersent;
         this.creatAtProfitWon = creatAtProfitWon;
-        this.creatAt = creatAt;
+        this.createAt = createAt;
     }
 }
