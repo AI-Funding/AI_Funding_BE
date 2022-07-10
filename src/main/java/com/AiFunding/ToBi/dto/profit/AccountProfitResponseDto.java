@@ -9,21 +9,21 @@ import java.util.List;
 @NoArgsConstructor
 public class AccountProfitResponseDto {
     //투자 AI Type
-    Integer aiType;
+    private Integer aiType;
     //계좌 이름
-    String accountName;
+    private String accountName;
     //총 평가 금액
-    Long todayTotalBalance;
+    private Long todayTotalBalance;
     //총 손익금 (퍼센트)
-    Double totalProfitPersent;
+    private Double totalProfitPersent;
     //총 손익금 (원₩)
-    Long totalProfitWon;
+    private Long totalProfitWon;
     //하루 손익금 (원₩)
-    Long todayProfitWon;
+    private Long todayProfitWon;
     //하루 수익률 (퍼센트)
-    Double todayProfitPersent;
+    private Double todayProfitPersent;
     //수익률 세부정보 리스트
-    List<ProfitDetailResponseDto> profitDetails;
+    private List<ProfitDetailResponseDto> profitDetails;
 
     public AccountProfitResponseDto(
             final Integer aiType,
