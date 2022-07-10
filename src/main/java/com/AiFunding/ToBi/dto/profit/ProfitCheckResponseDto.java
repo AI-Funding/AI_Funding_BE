@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ProfitCheckResponseDto {
     //계좌개수
-    private int accountNumber;
+    private Integer accountNumber;
     //계좌리스트AccountProfitResponseDto List
     private List<AccountProfitResponseDto> account;
 
