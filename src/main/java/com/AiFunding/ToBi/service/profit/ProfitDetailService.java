@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProfitDetailService {
@@ -27,8 +28,9 @@ public class ProfitDetailService {
     }
     public ProfitCheckResponseDto findUserDetail(final Long id, final String loginType) {
         //id와 loginType을 가지는 사용자 정보 Entity
-        CustomerInformationEntity customerInfo = customerInformationRepository.findByIdAndLoginType(id, loginType);//customerinformation
-        return new ProfitCheckResponseDto(getAccountProfitDtoList(customerInfo.getAccounts()),customerInfo.getAccounts().size());
+        Optional<CustomerInformationEntity> customerInfo = customerInformationRepository.findByIdAndLoginType(id, loginType);//customerinformation
+        customerInfo.orElseThrow();
+        return new ProfitCheckResponseDto(getAccountProfitDtoList(customerInfo.get().getAccounts()),customerInfo.get().getAccounts().size());
     }
     //계좌 수익 리스트 반환
 
