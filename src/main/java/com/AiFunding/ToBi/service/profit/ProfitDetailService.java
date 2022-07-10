@@ -89,11 +89,11 @@ public class ProfitDetailService {
         Integer averageSum = 0;
 
         //계좌의 모든 주식의 7일동안의 수익금 합을 구함 / 날짜기준으로 주식상세 list를 반환 받음
-        LocalDateTime TODAY_START_TIME = LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0));
-        LocalDateTime TODAY_END_TIME = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59));
+        LocalDateTime todayStartTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0));
+        LocalDateTime todayEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59));
         for (int i = 0; i < 7; i++) {
             //해당 날짜의 모든 주식의 수익금합,평단가합을 구함
-            List<AccountStockDetailEntity> accountStockDetailEntityList = accountStockDetailRepository.findByCreateAtBetweenAndAccount(TODAY_START_TIME, TODAY_END_TIME, accountEntity);
+            List<AccountStockDetailEntity> accountStockDetailEntityList = accountStockDetailRepository.findByCreateAtBetweenAndAccount(todayStartTime, todayEndTime, accountEntity);
             for (var accountStockDetail : accountStockDetailEntityList) {
                 profitSum += accountStockDetail.getIncome();
                 averageSum += accountStockDetail.getAveragePrice() * accountStockDetail.getStockAmount();//평단가*수량
@@ -103,15 +103,15 @@ public class ProfitDetailService {
             //해당일 손익금(퍼센트)->해당일손익금/(평단가*수량)*100
             Double creatAtProfitPersent = (double)creatAtProfitWon/averageSum*100;
             //해당 날짜
-            LocalDateTime creatAt = TODAY_START_TIME;
+            LocalDateTime creatAt = todayStartTime;
 
             profitDetailDtoList.add(new ProfitDetailResponseDto(creatAtProfitPersent, creatAtProfitWon, creatAt));
             //수익금합 평단가*수량 초기화
             profitSum = 0;
             averageSum = 0;
             //하루 전으로 설정
-            TODAY_START_TIME = TODAY_START_TIME.minusDays(1);
-            TODAY_END_TIME = TODAY_END_TIME.minusDays(1);
+            todayStartTime = todayStartTime.minusDays(1);
+            todayEndTime = todayEndTime.minusDays(1);
         }
 
         return profitDetailDtoList;
