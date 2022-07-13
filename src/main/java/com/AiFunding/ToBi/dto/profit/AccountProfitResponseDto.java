@@ -1,8 +1,10 @@
 package com.AiFunding.ToBi.dto.profit;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -24,6 +26,11 @@ public class AccountProfitResponseDto {
     private Double todayProfitPersent;
     //수익률 세부정보 리스트
     private List<ProfitDetailResponseDto> profitDetails;
+    //계좌생성일
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
+    private LocalDateTime createAt;
+    //히트맵 주식리스트
+    private List<HeatmapStockListResponseDto> stockList;
 
     public AccountProfitResponseDto(
             final Integer aiType,
@@ -33,7 +40,9 @@ public class AccountProfitResponseDto {
             final Long totalProfitWon,
             final Long todayProfitWon,
             final Double todayProfitPersent,
-            final List<ProfitDetailResponseDto> profitDetails) {
+            final List<ProfitDetailResponseDto> profitDetails,
+            final LocalDateTime createAt,
+            final List<HeatmapStockListResponseDto> stockList) {
         this.aiType = aiType;
         this.accountName = accountName;
         this.todayTotalBalance = todayTotalBalance;
@@ -42,5 +51,7 @@ public class AccountProfitResponseDto {
         this.todayProfitWon = todayProfitWon;
         this.todayProfitPersent = todayProfitPersent;
         this.profitDetails = profitDetails;
+        this.createAt = createAt;
+        this.stockList = stockList;
     }
 }
