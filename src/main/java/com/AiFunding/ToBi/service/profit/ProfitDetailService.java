@@ -1,6 +1,7 @@
 package com.AiFunding.ToBi.service.profit;
 
 import com.AiFunding.ToBi.dto.profit.AccountProfitResponseDto;
+import com.AiFunding.ToBi.dto.profit.HeatmapStockListResponseDto;
 import com.AiFunding.ToBi.dto.profit.ProfitCheckResponseDto;
 import com.AiFunding.ToBi.dto.profit.ProfitDetailResponseDto;
 import com.AiFunding.ToBi.entity.AccountEntity;
@@ -10,9 +11,11 @@ import com.AiFunding.ToBi.mapper.AccountStockDetailRepository;
 import com.AiFunding.ToBi.mapper.CustomerInformationRepository;
 import org.springframework.stereotype.Service;
 
+import java.sql.Array;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +67,10 @@ public class ProfitDetailService {
             Double todayProfitPersent = (double)todayProfitWon/accountEntity.getYesterdayTotalBalance()*100;
             //수익률 세부정보 리스트
             List<ProfitDetailResponseDto> profitDetails = getProfitDetailDtoList(accountEntity);
+            //계좌생성일
+            LocalDateTime createAt = accountEntity.getCreateAt();
+            //히트맵 주식 리스트
+            List<HeatmapStockListResponseDto> stockList = getHeatmapStockListResponseDtoList(accountEntity);
 
             accountProfitDtoList.add(new AccountProfitResponseDto(
                     aiType,
@@ -73,7 +80,9 @@ public class ProfitDetailService {
                     totalProfitWon,
                     todayProfitWon,
                     todayProfitPersent,
-                    profitDetails
+                    profitDetails,
+                    createAt,
+                    stockList
             ));
         }
         return accountProfitDtoList;
@@ -115,5 +124,21 @@ public class ProfitDetailService {
         }
 
         return profitDetailDtoList;
+    }
+
+    public List<HeatmapStockListResponseDto> getHeatmapStockListResponseDtoList(AccountEntity accountEntity){
+        List<HeatmapStockListResponseDto> heatmapStockListResponseDtoList = new ArrayList<>();
+        LocalDateTime todayStartTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0));
+        LocalDateTime todayEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59));
+        //당일 계좌 주식 리스트
+        List<AccountStockDetailEntity> accountStockDetailEntityList = accountStockDetailRepository.findByCreateAtBetweenAndAccount(todayStartTime, todayEndTime, accountEntity);
+        for (AccountStockDetailEntity accountStockDetailEntity : accountStockDetailEntityList) {
+            //주식이름
+            String stockName = accountStockDetailEntity.getStock().getItemName();
+            //주식비중 -> 해당주식의 평단가*보유수량 / 총평가금액 * 100
+            Double stockPercent = (double)accountStockDetailEntity.getAveragePrice() * accountStockDetailEntity.getStockAmount() / accountEntity.getBalance() * 100;
+            heatmapStockListResponseDtoList.add(new HeatmapStockListResponseDto(stockName, stockPercent));
+        }
+        return heatmapStockListResponseDtoList;
     }
 }
