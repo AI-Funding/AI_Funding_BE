@@ -1,24 +1,24 @@
-package com.AiFunding.ToBi.dto.trade.signal;
+package com.AiFunding.ToBi.dto.ai.page;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor
-public class TradeSignalDetailDto {
+public class StockDetailResponseDto {
+    //현재 종가 즉 전일 종가를 넘겨줌
+    private int createAtPrice;
+    //당일 날짜
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
+    private LocalDateTime createAt;
 
-    private String stockName;
 
-    private Integer tradeSignal;
-
-    private Double tradeAmount;
-
-    private String tradeModel;
-
-    TradeSignalDetailDto(final String stockName, final Integer tradeSignal, final Double tradeAmount,
-                         final String tradeModel){
-        this.stockName = stockName;
-        this.tradeAmount = tradeAmount;
-        this.tradeSignal = tradeSignal;
+    public StockDetailResponseDto(final int createAtPrice,final LocalDateTime createAt) {
+        this.createAtPrice = createAtPrice;
+        this.createAt = createAt;
     }
+
 }
