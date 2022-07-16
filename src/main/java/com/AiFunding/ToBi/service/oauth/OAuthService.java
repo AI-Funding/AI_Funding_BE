@@ -4,6 +4,7 @@ import com.AiFunding.ToBi.dto.auth.LoginRequestDto;
 import com.AiFunding.ToBi.dto.auth.SocialLoginType;
 import com.AiFunding.ToBi.dto.auth.TokenDto;
 import com.AiFunding.ToBi.entity.CustomerInformationEntity;
+import com.AiFunding.ToBi.exception.AlreadyExistUser;
 import com.AiFunding.ToBi.mapper.CustomerInformationRepository;
 import com.AiFunding.ToBi.service.oauth.social.SocialOauth;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -44,7 +46,7 @@ public class OAuthService {
     }
 
     public boolean isExistsUser(String loginType, String userId) {
-        return customerInformationRepository.existsByIdAndLoginType(userId,loginType);
+        return customerInformationRepository.existsUserIdAndLoginType(loginType,userId);
     }
 
     public boolean isEmailDuplicated(String email){
@@ -78,7 +80,7 @@ public class OAuthService {
     public TokenDto signIn(String userId, String loginType) {
         CustomerInformationEntity customerInformationEntity =
                 customerInformationRepository
-                        .findByIdAndLoginType(userId,loginType)
+                        .findByUserIdAndLoginType(userId,loginType)
                         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 
         String accessToken = "";
