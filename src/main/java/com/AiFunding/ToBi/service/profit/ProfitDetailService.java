@@ -55,16 +55,16 @@ public class ProfitDetailService {
             Long todayTotalBalance = accountEntity.getTodayTotalBalance();
             //총 손익금 (원₩) -> 계좌에 있는 모든 주식의 수익금 합
             var accountStocks = accountEntity.getAccountStocks();//계좌에 있는 모든 주식값을 가져옴
-
             for (AccountStockDetailEntity accountStockDetailEntity:accountStocks) {//모든 주식의 수익률를 더함
                 sum += accountStockDetailEntity.getIncome();
             }
             Long totalProfitWon = sum.longValue();
             //총 손익금 (퍼센트) (총수익금/총 평가 금액)*100
             Double totalProfitPersent = (double)totalProfitWon/todayTotalBalance*100;
+            //하루 수익률 (원₩)
             Long todayProfitWon = todayTotalBalance-accountEntity.getYesterdayTotalBalance();
-            //하루 수익률 (퍼센트) -> (하루손익금/어제 평단가*수량) * 100
-            Double todayProfitPersent = (double)todayProfitWon/accountEntity.getYesterdayTotalBalance()*100;
+            //하루 수익률 (퍼센트) -> (오늘 평단가*수량/어제 평단가*수량) * 100
+            Double todayProfitPersent = (double)accountEntity.getTodayTotalBalance()/accountEntity.getYesterdayTotalBalance()*100;
             //수익률 세부정보 리스트
             List<ProfitDetailResponseDto> profitDetails = getProfitDetailDtoList(accountEntity);
             //계좌생성일
@@ -132,11 +132,15 @@ public class ProfitDetailService {
         LocalDateTime todayEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59));
         //당일 계좌 주식 리스트
         List<AccountStockDetailEntity> accountStockDetailEntityList = accountStockDetailRepository.findByCreateAtBetweenAndAccount(todayStartTime, todayEndTime, accountEntity);
+        int totalStockPrice = 0;
+        for (AccountStockDetailEntity accountStockDetailEntity : accountStockDetailEntityList) {//계좌의 총 주식 합을 구함 -> 평단가 * 수량
+            totalStockPrice += accountStockDetailEntity.getAveragePrice() * accountStockDetailEntity.getStockAmount();
+        }
         for (AccountStockDetailEntity accountStockDetailEntity : accountStockDetailEntityList) {
             //주식이름
             String stockName = accountStockDetailEntity.getStock().getItemName();
-            //주식비중 -> 해당주식의 평단가*보유수량 / 총평가금액 * 100
-            Double stockPercent = (double)accountStockDetailEntity.getAveragePrice() * accountStockDetailEntity.getStockAmount() / accountEntity.getBalance() * 100;
+            //주식비중 -> 해당주식의 평단가*보유수량 / (모든주식의 평단가 * 수량) * 100
+            Double stockPercent = (double)accountStockDetailEntity.getAveragePrice() * accountStockDetailEntity.getStockAmount() / totalStockPrice * 100;
             heatmapStockListResponseDtoList.add(new HeatmapStockListResponseDto(stockName, stockPercent));
         }
         return heatmapStockListResponseDtoList;
