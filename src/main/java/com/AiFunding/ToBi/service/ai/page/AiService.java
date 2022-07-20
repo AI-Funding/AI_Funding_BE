@@ -17,10 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class AiService {
@@ -41,9 +38,9 @@ public class AiService {
 
     //id와 loginType을 가지는 Entitiy를 찾아서 DTO에 담고 반환
     public AiResponseDto findUserInfo(final Long id, final String loginType) {
-        CustomerInformationEntity customerInfo = customerInformationRepository.findByIdAndLoginType(id, loginType);//customerinformation
-
-        return new AiResponseDto(new CurrStockItemsResponseDto(getAccountDtoList(customerInfo.getAccounts())), new AccountTradeHistoryResponseDto(getAccountHistoryDtoList(customerInfo.getAccounts())));//CurrStockItemsResponseDto(getAccountDtoList(customerInfo.getAccounts()));
+        Optional<CustomerInformationEntity> customerInfo = customerInformationRepository.findByIdAndLoginType(id, loginType);//customerinformation
+        customerInfo.orElseThrow();
+        return new AiResponseDto(new CurrStockItemsResponseDto(getAccountDtoList(customerInfo.get().getAccounts())), new AccountTradeHistoryResponseDto(getAccountHistoryDtoList(customerInfo.get().getAccounts())));//CurrStockItemsResponseDto(getAccountDtoList(customerInfo.getAccounts()));
     }
 
     //계좌이름과 보유주식리스트를 계좌DTO에 담아서  반환

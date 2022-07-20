@@ -9,10 +9,7 @@ import com.AiFunding.ToBi.entity.CustomerInformationEntity;
 import com.AiFunding.ToBi.mapper.CustomerInformationRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class HomeService {
@@ -29,9 +26,9 @@ public class HomeService {
 
 
     public UserResponseDto findUserInfo(final Long id, final String loginType){
-        CustomerInformationEntity customer = customerInformationRepository.findByIdAndLoginType(id,loginType);
-
-        return new UserResponseDto(customer.getNickname(),getAccountData(customer.getAccounts()));
+        Optional<CustomerInformationEntity> customer = customerInformationRepository.findByIdAndLoginType(id,loginType);
+        customer.orElseThrow();
+        return new UserResponseDto(customer.get().getNickname(),getAccountData(customer.get().getAccounts()));
 
     }
 
