@@ -45,18 +45,18 @@ jobs:
           
       ## create application-real-db.properties
       - name: create application-real-db.properties
-        run:
-          cd ./src/main/resources \
-          && touch ./application-real-db.properties \
-          && echo "{{ secrets.REAL_DB_SECRET }}" > ./application-real-db.properties
+        run: |
+          cd ./src/main/resources
+          touch ./application-real-db.properties
+          echo "{{ secrets.REAL_DB_SECRET }}" > ./application-real-db.properties
         shell: bash
       
       ## create application-oauth.yml
       - name: create application-oauth.yml
-        run:
-          cd ./src/main/resources \
-          && touch ./application-oauth.yml \
-          && echo "{{ secrets.OAUTH_SECRET }}" > ./application-oauth.yml
+        run: |
+          cd ./src/main/resources
+          touch ./application-oauth.yml
+          echo "{{ secrets.OAUTH_SECRET }}" > ./application-oauth.yml
         shell: bash
       
       ## Build with Gradle
