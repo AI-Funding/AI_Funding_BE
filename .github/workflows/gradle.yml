@@ -1,0 +1,67 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Spring Boot CI/CD
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "develop" branch
+  push:
+    branches:
+      - develop
+      - master
+  pull_request:
+    branches:
+      - develop
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11 
+        uses: action/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      ## grading caching start
+      - name: Grading caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties')}}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+          
+      ## create application-real-db.properties
+      - name: create application-real-db.properties
+        run:
+          cd ./src/main/resources
+          touch ./application-real-db.properties
+          echo "{{ secrets.REAL_DB_SECRET }}" > ./application-real-db.properties
+        shell: bash
+      
+      ## create application-oauth.yml
+      - name: create application-oauth.yml
+        run:
+          cd ./src/main/resources
+          touch ./application-oauth.yml
+          echo "{{ secrets.OAUTH_SECRET }}" > ./application-oauth.yml
+        shell: bash
+      
+      ## Build with Gradle
+      - name: build gradle
+        run:
+          chmod +x ./gradlew
+          ./gradlew build -x test    
+        shell: bash
+        
+        
