@@ -2,11 +2,9 @@ package com.AiFunding.ToBi.entity;
 
 import com.sun.istack.NotNull;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Entity // Jpa를 사용하기 위한 Entity 설정
 @NoArgsConstructor // 파라미터가 없는 생성자 생성
