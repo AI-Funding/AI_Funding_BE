@@ -9,10 +9,7 @@ import com.AiFunding.ToBi.entity.TradingDetailEntity;
 import com.AiFunding.ToBi.mapper.CustomerInformationRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class HistoryService {
@@ -25,9 +22,10 @@ public class HistoryService {
 
     // User 정보를 찾고 거래 내역 DTO 를 반환
     public AccountTradeHistoryResponseDto findUserHistory(final Long id, final String loginType) {
-        CustomerInformationEntity customerInfo = customerInformationRepository.findByIdAndLoginType(id, loginType);
+        Optional<CustomerInformationEntity> customerInfo = customerInformationRepository.findByIdAndLoginType(id, loginType);
+        customerInfo.orElseThrow(NullPointerException::new);
 
-        return new AccountTradeHistoryResponseDto(getAccountHistoryDtoList(customerInfo.getAccounts()));
+        return new AccountTradeHistoryResponseDto(getAccountHistoryDtoList(customerInfo.get().getAccounts()));
     }
 
     // 거래내역 관련 데이터 리스트 반환
