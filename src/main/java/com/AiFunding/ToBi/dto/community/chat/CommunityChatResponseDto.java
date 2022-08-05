@@ -1,6 +1,6 @@
 package com.AiFunding.ToBi.dto.community.chat;
 
-import com.AiFunding.ToBi.dto.community.CommunityBoardDto;
+import com.AiFunding.ToBi.dto.community.CommunityPostDto;
 import com.AiFunding.ToBi.dto.community.CommunityCommentDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
@@ -20,9 +20,9 @@ public class CommunityChatResponseDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime hotDate;
     //hot 게시글 하트수
-    private Long hotHeartNum;
+    private Integer hotHeartNum;
     //hot 게시글 댓글 개수
-    private Long hotCommentNum;
+    private Integer hotCommentNum;
     //hot 게시글 내용
     private String hotContent;
     //hot 게시글 작성자
@@ -30,17 +30,17 @@ public class CommunityChatResponseDto {
     //hot 게시글 댓글
     private List<CommunityCommentDto> hotComments;
     //hot 게시글 게시글
-    private List<CommunityBoardDto> board;
+    private List<CommunityPostDto> board;
 
     public CommunityChatResponseDto(final Long hotId,
                                     final String hotTitle,
                                     final LocalDateTime hotDate,
-                                    final Long hotHeartNum,
-                                    final Long hotCommentNum,
+                                    final Integer hotHeartNum,
+                                    final Integer hotCommentNum,
                                     final String hotContent,
                                     final String hotWriter,
                                     final List<CommunityCommentDto> hotComments,
-                                    final List<CommunityBoardDto> board) {
+                                    final List<CommunityPostDto> board) {
         this.hotId = hotId;
         this.hotTitle = hotTitle;
         this.hotDate = hotDate;

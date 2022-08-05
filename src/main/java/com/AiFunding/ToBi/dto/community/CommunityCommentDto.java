@@ -17,12 +17,12 @@ public class CommunityCommentDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime commentDate;
     //댓글 좋아요 수
-    private Long commentHeartNum;
+    private Integer commentHeartNum;
 
     public CommunityCommentDto(final String commentWriter,
                                final String commentContent,
                                final LocalDateTime commentDate,
-                               final Long commentHeartNum) {
+                               final Integer commentHeartNum) {
         this.commentWriter = commentWriter;
         this.commentContent = commentContent;
         this.commentDate = commentDate;

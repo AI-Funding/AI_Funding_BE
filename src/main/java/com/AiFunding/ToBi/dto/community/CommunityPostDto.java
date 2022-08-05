@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class CommunityBoardDto {
+public class CommunityPostDto {
     //게시글 id
     private Long id;
     //글 제목
@@ -18,9 +18,9 @@ public class CommunityBoardDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime date;
     //하트 수
-    private Long heartNum;
+    private Integer heartNum;
     //댓글 개수
-    private Long commentNum;
+    private Integer commentNum;
     //내용
     private String content;
     //작성자
@@ -28,13 +28,14 @@ public class CommunityBoardDto {
     //댓글
     private List<CommunityCommentDto> comments;
 
-    public CommunityBoardDto(final Long id,
-                             final String title,
-                             final LocalDateTime date,
-                             final Long heartNum, Long commentNum,
-                             final String content,
-                             final String writer,
-                             final List<CommunityCommentDto> comments) {
+    public CommunityPostDto(final Long id,
+                            final String title,
+                            final LocalDateTime date,
+                            final Integer heartNum,
+                            final Integer commentNum,
+                            final String content,
+                            final String writer,
+                            final List<CommunityCommentDto> comments) {
         this.id = id;
         this.title = title;
         this.date = date;
