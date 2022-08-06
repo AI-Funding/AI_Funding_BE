@@ -1,5 +1,6 @@
 package com.AiFunding.ToBi.service.community;
 
+import com.AiFunding.ToBi.dto.Home.UserRequestDto;
 import com.AiFunding.ToBi.dto.community.CommunityPostDto;
 import com.AiFunding.ToBi.dto.community.CommunityCommentDto;
 import com.AiFunding.ToBi.dto.community.chat.CommunityChatResponseDto;
@@ -7,6 +8,7 @@ import com.AiFunding.ToBi.entity.BoardEntity;
 import com.AiFunding.ToBi.entity.CommentEntity;
 import com.AiFunding.ToBi.entity.PostEntity;
 import com.AiFunding.ToBi.mapper.BoardRepository;
+import com.AiFunding.ToBi.mapper.CustomerInformationRepository;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +20,19 @@ import java.util.Optional;
 @Service
 public class CommunityChatService {
     private final BoardRepository boardRepository;
+    private final CustomerInformationRepository customerInformationRepository;
 
-    public CommunityChatService(BoardRepository boardRepository) {
+    public CommunityChatService(BoardRepository boardRepository, CustomerInformationRepository customerInformationRepository) {
         this.boardRepository = boardRepository;
+        this.customerInformationRepository = customerInformationRepository;
     }
 
-    public CommunityChatResponseDto findCommunityChatBoard() {
+    public CommunityChatResponseDto findCommunityChatBoard(Long id, String loginType) {
+        //회원 존재여부
+        boolean isMember = isMember(id, loginType);
+        if(!isMember) return new CommunityChatResponseDto(false, null, null, null, null, null, null, null, null, null);
+
+
         //잡담 게시판 Entity
         String boardName = "잡담";
         Optional<BoardEntity> optionalBoardEntity = boardRepository.findByPostType(boardName);
@@ -59,7 +68,7 @@ public class CommunityChatService {
         //게시글
         List<CommunityPostDto> board = getCommunityPostDtoList(optionalBoardEntity.get());
 
-        return new CommunityChatResponseDto(hotId, hotTitle, hotDate, hotHeartNum, hotCommentNum, hotContent, hotWriter, hotComments, board);
+        return new CommunityChatResponseDto(true, hotId, hotTitle, hotDate, hotHeartNum, hotCommentNum, hotContent, hotWriter, hotComments, board);
     }
 
     /**
@@ -67,7 +76,7 @@ public class CommunityChatService {
      * @param boardEntity 게시판 정보
      * @return 게시판의 게시글 List 반환
      */
-    private List<CommunityPostDto> getCommunityPostDtoList(BoardEntity boardEntity) {
+    public List<CommunityPostDto> getCommunityPostDtoList(BoardEntity boardEntity) {
         List<CommunityPostDto> communityCommentDtoList = new ArrayList<>();
 
         //게시판에 있는 게시글 List
@@ -101,7 +110,7 @@ public class CommunityChatService {
      * @param postEntity
      * @return
      */
-    private List<CommunityCommentDto> getCommentInfoList(PostEntity postEntity) {
+    public List<CommunityCommentDto> getCommentInfoList(PostEntity postEntity) {
         List<CommunityCommentDto> communityCommentDtoList = new ArrayList<>();
         //게시글에 대한 모든 댓글
         List<CommentEntity> commentEntityList = postEntity.getComments();
@@ -118,5 +127,9 @@ public class CommunityChatService {
             communityCommentDtoList.add(new CommunityCommentDto(commentWriter, commentContent, commentDate, commentHeartNum));
         }
         return communityCommentDtoList;
+    }
+
+    public boolean isMember(Long id, String loginType) {
+        return customerInformationRepository.existsByIdAndLoginType(id, loginType);
     }
 }
