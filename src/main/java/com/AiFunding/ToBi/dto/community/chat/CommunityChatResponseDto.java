@@ -12,6 +12,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class CommunityChatResponseDto {
+    //사용자 확인
+    private String isMember;
     //hot 게시글 id
     private Long hotId;
     //hot 게시글 제목
@@ -32,7 +34,8 @@ public class CommunityChatResponseDto {
     //hot 게시글 게시글
     private List<CommunityPostDto> board;
 
-    public CommunityChatResponseDto(final Long hotId,
+    public CommunityChatResponseDto(final String isMember,
+                                    final Long hotId,
                                     final String hotTitle,
                                     final LocalDateTime hotDate,
                                     final Integer hotHeartNum,
@@ -41,6 +44,7 @@ public class CommunityChatResponseDto {
                                     final String hotWriter,
                                     final List<CommunityCommentDto> hotComments,
                                     final List<CommunityPostDto> board) {
+        this.isMember = isMember;
         this.hotId = hotId;
         this.hotTitle = hotTitle;
         this.hotDate = hotDate;
