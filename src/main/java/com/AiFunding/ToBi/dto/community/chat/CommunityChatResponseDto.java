@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class CommunityChatResponseDto {
     //사용자 확인
-    private String isMember;
+    private Boolean isMember;
     //hot 게시글 id
     private Long hotId;
     //hot 게시글 제목
@@ -34,7 +34,7 @@ public class CommunityChatResponseDto {
     //hot 게시글 게시글
     private List<CommunityPostDto> board;
 
-    public CommunityChatResponseDto(final String isMember,
+    public CommunityChatResponseDto(final Boolean isMember,
                                     final Long hotId,
                                     final String hotTitle,
                                     final LocalDateTime hotDate,
