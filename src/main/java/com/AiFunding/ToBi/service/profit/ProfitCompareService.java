@@ -60,7 +60,7 @@ public class ProfitCompareService {
     }
 
     /**
-     * @return 일별 누적수익률 리스트를 반환 -> 오늘총 수익금 / 어제의 총평가 금액 * 100
+     * @return 일별 누적수익률 리스트를 반환
      */
     public List<AccumulatedProfitResponseDto> getAccumulatedProfitResponseDtoList(AccountEntity accountEntity) {
         List<AccumulatedProfitResponseDto> accumulatedProfitResponseDtoList = new ArrayList<>();
