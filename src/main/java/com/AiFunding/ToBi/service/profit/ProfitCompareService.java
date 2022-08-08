@@ -33,7 +33,7 @@ public class ProfitCompareService {
      */
     public ProfitAccountListDto findUserProfit(final Long id, final String loginType) {
         Optional<CustomerInformationEntity> customerInfo = customerInformationRepository.findByIdAndLoginType(id, loginType);
-        customerInfo.orElseThrow();
+        customerInfo.orElseThrow(NullPointerException::new);
         return new ProfitAccountListDto(getProfitAccountInfoResponseDtoList(customerInfo.get()));
     }
 
@@ -65,72 +65,34 @@ public class ProfitCompareService {
     public List<AccumulatedProfitResponseDto> getAccumulatedProfitResponseDtoList(AccountEntity accountEntity) {
         List<AccumulatedProfitResponseDto> accumulatedProfitResponseDtoList = new ArrayList<>();
 
-        //계좌의 종목거래내역 List
+        //계좌의 종목거래내역 List로부터 첫 거래일을 구함
         List<TradingDetailEntity> tradingDetailEntityList = accountEntity.getTradingEntities();
+        LocalDateTime currDate = tradingDetailEntityList.get(0).getCreateAt();
 
-        long totalBuyPrice = 0;//총매입금액
-        for (int i = 0; i < tradingDetailEntityList.size(); i++) {
-            //로컬변수 선언
-            TradingDetailEntity currTradingDataEntity = null;//현재의 거래정보 Entity
-            TradingDetailEntity nextTradingDataEntity = null;//다음의 거래정보 Entity
 
-            LocalDateTime currDate = null; //현재의 거리날짜
-            LocalDateTime nextDate = null; //다음의 거래날짜
+        //해당 거래날짜 기준으로 다음 거래가 생기기 전 까지의 누적 수익률을 구함
+        LocalDateTime currStartTime = LocalDateTime.of(currDate.getYear(),currDate.getMonth(),currDate.getDayOfMonth(),0,0,0);
+        LocalDateTime currEndTime = LocalDateTime.of(currDate.getYear(),currDate.getMonth(),currDate.getDayOfMonth(),23,59,59);
+        while (currStartTime.isBefore(LocalDateTime.now())) {
+            List<AccountStockDetailEntity> accountStockDetailEntityList = accountStockDetailRepository.findByCreateAtBetweenAndAccount(currStartTime, currEndTime, accountEntity);
 
-            //거래정보 Entity를 통해 거래 날짜를 구함
-            currTradingDataEntity = tradingDetailEntityList.get(i);//현재의 거래정보 Entity
-            currDate = currTradingDataEntity.getCreateAt();//현재의 거래 날짜
-            if (i + 1 < tradingDetailEntityList.size()) {
-                nextTradingDataEntity = tradingDetailEntityList.get(i + 1);//다음의 거래정보 Entity
-                nextDate = nextTradingDataEntity.getCreateAt();//다음의 거래 날짜
-                nextDate = LocalDateTime.of(nextDate.getYear(), nextDate.getMonth(), nextDate.getDayOfMonth(), 0, 0, 0);
+            if(accountStockDetailEntityList.isEmpty()) break;//
+
+            int stockSum = 0;//누적수익금액
+            //해당일 기준 계좌의 모든 주식
+            for (AccountStockDetailEntity accountStockDetailEntity : accountStockDetailEntityList) {
+                //현재가 * 수량
+                stockSum += accountStockDetailEntity.getStock().getNowPrice() * accountStockDetailEntity.getStockAmount();
             }
+            //현재주식가 + 잔고 / 1000
+            Long money = 10000000L;
+            double currProfit = (double)(stockSum + accountEntity.getBalance()) / money * 100;//현재의 누적수익률
+            accumulatedProfitResponseDtoList.add(new AccumulatedProfitResponseDto(currStartTime, currProfit));
 
-            //해당 거래날짜 기준 총매입을 구함
-            totalBuyPrice += currTradingDataEntity.getTradingPrice() * currTradingDataEntity.getTradingAmount();
-
-            //해당 거래날짜 기준으로 다음 거래가 생기기 전 까지의 누적 수익률을 구함
-            LocalDateTime currStartTime = LocalDateTime.of(currDate.getYear(),currDate.getMonth(),currDate.getDayOfMonth(),0,0,0);
-            LocalDateTime currEndTime = LocalDateTime.of(currDate.getYear(),currDate.getMonth(),currDate.getDayOfMonth(),23,59,59);
-            if (nextDate != null) {
-                while (currStartTime.isBefore(nextDate)) {//다음거래 이전까지 누적 수익률을 구해서 리스트에 add함
-                    List<AccountStockDetailEntity> accountStockDetailEntityList = accountStockDetailRepository.findByCreateAtBetweenAndAccount(currStartTime, currEndTime, accountEntity);
-                    if(accountStockDetailEntityList.isEmpty()) break;//
-                    int stockSum = 0;//누적수익금액
-                    //해당일 기준 계좌의 모든 주식의
-                    for (AccountStockDetailEntity accountStockDetailEntity : accountStockDetailEntityList) {
-                        stockSum += accountStockDetailEntity.getAveragePrice() * accountStockDetailEntity.getStockAmount();
-                    }
-                    double currProfit = (double)stockSum / totalBuyPrice * 100;//현재의 누적수익률
-                    accumulatedProfitResponseDtoList.add(new AccumulatedProfitResponseDto(currStartTime, currProfit));
-
-                    //하루증가
-                    currStartTime = currStartTime.plusDays(1);
-                    currEndTime = currEndTime.plusDays(1);
-                }
-            } else {
-                List<AccountStockDetailEntity> accountStockDetailEntityList = accountStockDetailRepository.findByCreateAtBetweenAndAccount(currStartTime, currEndTime, accountEntity);
-                while (!accountStockDetailEntityList.isEmpty()) {//다음거래 이전까지 누적 수익률을 구해서 리스트에 add함
-                    int stockSum = 0;//누적수익금액
-                    //해당일 기준 계좌의 모든 주식의
-                    for (AccountStockDetailEntity accountStockDetailEntity : accountStockDetailEntityList) {
-                        stockSum += accountStockDetailEntity.getAveragePrice() * accountStockDetailEntity.getStockAmount();
-                    }
-                    double currProfit = (double)stockSum / totalBuyPrice * 100;//현재의 누적수익률
-                    accumulatedProfitResponseDtoList.add(new AccumulatedProfitResponseDto(currStartTime, currProfit));
-
-                    //하루증가
-                    currStartTime = currStartTime.plusDays(1);
-                    currEndTime = currEndTime.plusDays(1);
-                    accountStockDetailEntityList = accountStockDetailRepository.findByCreateAtBetweenAndAccount(currStartTime, currEndTime, accountEntity);
-                }
-            }
-
-
+            //하루증가
+            currStartTime = currStartTime.plusDays(1);
+            currEndTime = currEndTime.plusDays(1);
         }
-
         return accumulatedProfitResponseDtoList;
-
     }
-
 }
