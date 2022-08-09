@@ -23,7 +23,8 @@ public class HistoryService {
     // User 정보를 찾고 거래 내역 DTO 를 반환
     public AccountTradeHistoryResponseDto findUserHistory(final Long id, final String loginType) {
         Optional<CustomerInformationEntity> customerInfo = customerInformationRepository.findByIdAndLoginType(id, loginType);
-        customerInfo.orElseThrow();
+        customerInfo.orElseThrow(NullPointerException::new);
+
         return new AccountTradeHistoryResponseDto(getAccountHistoryDtoList(customerInfo.get().getAccounts()));
     }
 

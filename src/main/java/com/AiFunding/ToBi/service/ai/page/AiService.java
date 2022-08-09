@@ -39,7 +39,7 @@ public class AiService {
     //id와 loginType을 가지는 Entitiy를 찾아서 DTO에 담고 반환
     public AiResponseDto findUserInfo(final Long id, final String loginType) {
         Optional<CustomerInformationEntity> customerInfo = customerInformationRepository.findByIdAndLoginType(id, loginType);//customerinformation
-        customerInfo.orElseThrow();
+        customerInfo.orElseThrow(NullPointerException::new);
         return new AiResponseDto(new CurrStockItemsResponseDto(getAccountDtoList(customerInfo.get().getAccounts())), new AccountTradeHistoryResponseDto(getAccountHistoryDtoList(customerInfo.get().getAccounts())));//CurrStockItemsResponseDto(getAccountDtoList(customerInfo.getAccounts()));
     }
 

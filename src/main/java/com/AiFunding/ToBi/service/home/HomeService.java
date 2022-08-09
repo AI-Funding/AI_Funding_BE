@@ -27,7 +27,7 @@ public class HomeService {
 
     public UserResponseDto findUserInfo(final Long id, final String loginType){
         Optional<CustomerInformationEntity> customer = customerInformationRepository.findByIdAndLoginType(id,loginType);
-        customer.orElseThrow();
+        customer.orElseThrow(NullPointerException::new);
         return new UserResponseDto(customer.get().getNickname(),getAccountData(customer.get().getAccounts()));
 
     }
