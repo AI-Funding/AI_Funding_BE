@@ -44,10 +44,18 @@ public class HomeService {
             Double todayIncome = (double)(account.getTodayTotalBalance()-account.getYesterdayTotalBalance()) / account.getYesterdayTotalBalance() * 100;
             Double totalIncome = (double)(stockBalance - INITIAL_PRICE) /INITIAL_PRICE * 100;
 
-            accountData.add(new AccountListResponseDto(account.getNickname(), stockBalance,account.getCreateAt()
-            ,Math.floor(todayIncome*100) / 100.0
-            , (account.getTodayTotalBalance()- account.getYesterdayTotalBalance())
-                    , Math.floor(totalIncome*100)/100.0, (stockBalance-INITIAL_PRICE),getStockData(account)));
+            accountData.add(new AccountListResponseDto(
+                    account.getNickname(),
+                    stockBalance,
+                    account.getCreateAt(),
+                    Math.floor(todayIncome*100) / 100.0,
+                    (account.getTodayTotalBalance() - account.getYesterdayTotalBalance()),
+                    Math.floor(totalIncome*100) / 100.0,
+                    (stockBalance - INITIAL_PRICE),
+                    getStockData(account),
+                    account.getAiType()
+            ));
+
         }
 
         Collections.sort(accountData, Comparator.comparing(AccountListResponseDto::getCreateAt)); // createAt 별로 정렬
