@@ -1,8 +1,6 @@
 package com.AiFunding.ToBi.controller;
 
-import com.AiFunding.ToBi.dto.auth.LoginDto;
-import com.AiFunding.ToBi.dto.auth.SocialLoginType;
-import com.AiFunding.ToBi.dto.auth.TokenDto;
+import com.AiFunding.ToBi.dto.auth.*;
 import com.AiFunding.ToBi.entity.CustomerInformationEntity;
 import com.AiFunding.ToBi.service.oauth.OAuthService;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
-@RequestMapping(value = "/auth")
+@RequestMapping(value = "/api/auth")
 @Slf4j//logging Facade
 public class AuthController {
 
@@ -30,8 +30,8 @@ public class AuthController {
         oAuthService.request(socialLoginType);
     }
 
-    @PostMapping(value = "/callback")
-    public ResponseEntity<LoginDto> callback(
+    @PostMapping(value = "/sign-in")
+    public ResponseEntity<LoginDto> SignIn(
             @RequestParam(name = "socialLoginType") String socialLoginType,
             @RequestParam(name = "code") String code,
             HttpServletResponse response) {
@@ -70,15 +70,38 @@ public class AuthController {
         return ResponseEntity.ok().body(loginDto);
     }
 
-    @GetMapping("/duplicate/{email}")
-    public ResponseEntity<Boolean> checkEmailDuplicate(@PathVariable String email){
-        return ResponseEntity.ok(oAuthService.isEmailDuplicated(email));
+    @PostMapping("/sign-up")
+    public ResponseEntity<LoginDto> SignUp(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
+        TokenDto tokens = oAuthService.signUp(loginRequestDto);
+        Cookie cookie = new Cookie("refreshToken", tokens.getRefreshToken());
+        cookie.setMaxAge(90 * 24 * 60 * 60);//90일 유지
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+
+        response.addCookie(cookie);
+
+        LoginDto loginDto = LoginDto.builder()
+                .accessToken(tokens.getAccessToken())
+                .UID(loginRequestDto.getUID())
+                .isExistUser(true)
+                .build();
+        return ResponseEntity.ok().body(loginDto);
+    }
+    @GetMapping("/duplicate/email")
+    public ResponseEntity<Map<String,Boolean>> checkEmailDuplicate(@RequestBody DuplicateRequestDto duplicateRequestDto){
+        Map<String, Boolean> isExist = new HashMap<>();
+        isExist.put("isExist",oAuthService.isEmailDuplicated(duplicateRequestDto.getValue()));
+        return ResponseEntity.ok(isExist);
     }
 
-    @GetMapping("/duplicate/{nickName}")
-    public ResponseEntity<Boolean> checkNicknameDuplicate(@PathVariable String nickName){
-        return ResponseEntity.ok(oAuthService.isNicknameDuplicated(nickName));
+    @GetMapping("/duplicate/nickName")
+    public ResponseEntity<Map<String,Boolean>> checkNicknameDuplicate(@RequestBody DuplicateRequestDto duplicateRequestDto){
+        Map<String, Boolean> isExist = new HashMap<>();
+        isExist.put("isExist",oAuthService.isNicknameDuplicated(duplicateRequestDto.getValue()));
+        return ResponseEntity.ok(isExist);
     }
+
 }
 
 
