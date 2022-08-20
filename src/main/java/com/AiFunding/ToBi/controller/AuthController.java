@@ -118,7 +118,7 @@ public class AuthController {
         return ResponseEntity.ok(isExist);
     }
 
-    @PostMapping("/duplicate/nickName")
+    @PostMapping("/duplicate/nickname")
     public ResponseEntity<Map<String,Boolean>> checkNicknameDuplicate(@RequestBody DuplicateRequestDto duplicateRequestDto){
         Map<String, Boolean> isExist = new HashMap<>();
         isExist.put("isExist",oAuthService.isNicknameDuplicated(duplicateRequestDto.getValue()));
