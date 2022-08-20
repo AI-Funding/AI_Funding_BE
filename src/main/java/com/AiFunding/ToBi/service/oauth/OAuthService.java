@@ -44,7 +44,7 @@ public class OAuthService {
     }
 
     public boolean isExistsUser(String loginType, String userId) {
-        return customerInformationRepository.existsByIdAndLoginType(userId,loginType);
+        return customerInformationRepository.existsByUserIdAndLoginType(userId,loginType);
     }
 
     public boolean isEmailDuplicated(String email){
@@ -78,7 +78,7 @@ public class OAuthService {
     public TokenDto signIn(String userId, String loginType) {
         CustomerInformationEntity customerInformationEntity =
                 customerInformationRepository
-                        .findByIdAndLoginType(userId,loginType)
+                        .findByUserIdAndLoginType(userId,loginType)
                         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 
         String accessToken = "";
@@ -104,13 +104,20 @@ public class OAuthService {
     @Transactional
     public TokenDto signUp(LoginRequestDto loginRequestDto) {
         String refreshToken = jwtTokenUtils.createRefreshToken();
+        String type="";
+        if(loginRequestDto.getLoginType().equals("KAKAO")){
+            type = "00";
+        }
+        else if(loginRequestDto.getLoginType().equals("GOOGLE")){
+            type = "01";
+        }
         CustomerInformationEntity customerInformationEntity =
                 customerInformationRepository.save(
                         CustomerInformationEntity.builder()
                                 .nickname(loginRequestDto.getNickname())
                                 .userId(loginRequestDto.getUID())
                                 .email(loginRequestDto.getEmail())
-                                .loginType(loginRequestDto.getLoginType())
+                                .loginType(type)
                                 .refreshToken(refreshToken)
                                 .build());
         String accessToken = jwtTokenUtils.createJwtToken(customerInformationEntity);

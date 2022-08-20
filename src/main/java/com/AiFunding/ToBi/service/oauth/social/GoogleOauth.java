@@ -1,20 +1,27 @@
 package com.AiFunding.ToBi.service.oauth.social;
 
+import com.AiFunding.ToBi.dto.auth.GoogleDto;
 import com.AiFunding.ToBi.dto.auth.TokenDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Exchanger;
 import java.util.stream.Collectors;
 
 @Component
@@ -84,12 +91,19 @@ public class GoogleOauth implements SocialOauth {
 
     @Override
     public String getUserId(String accessToken) {
-        RestTemplate restTemplate = new RestTemplate();
-        String requestUrl = UriComponentsBuilder.fromHttpUrl(GOOGLE_SNS_TOKEN_BASE_URL + "/tokeninfo").queryParam("id_token", accessToken).toUriString();
-        String responseJson = restTemplate.getForObject(requestUrl,String.class);
-        JsonParser parser = new JsonParser();
-        JsonElement element = parser.parse(responseJson);
-        String userId = element.getAsJsonObject().get("sub").getAsString();
-        return userId;
+
+        String GOOGLE_USERINFO_REQUEST_URL="https://www.googleapis.com/oauth2/v1/userinfo";
+
+        RestTemplate restTemplate =new RestTemplate();
+        //header에 accessToken을 담는다.
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization","Bearer "+accessToken);
+        //restTemplate.exchange(GOOGLE_USERINFO_REQUEST_URL, HttpMethod.GET,request,String.class);
+        //HttpEntity를 하나 생성해 헤더를 담아서 restTemplate으로 구글과 통신하게 된다.
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity(headers);
+        ResponseEntity<GoogleDto> response=restTemplate.exchange(GOOGLE_USERINFO_REQUEST_URL, HttpMethod.GET,request,GoogleDto.class);
+        System.out.println("response.getBody() = " + response.getBody());
+
+        return response.getBody().getId();
     }
 }

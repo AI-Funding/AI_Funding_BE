@@ -10,8 +10,8 @@ public interface CustomerInformationRepository extends JpaRepository<CustomerInf
 //    @Query(value = "SELECT * FROM CUST_INFO CUST_INFO WHERE user_sequence=?0 AND login_type=?1", nativeQuery = true)
     Optional<CustomerInformationEntity> findByIdAndLoginType(Long id, String loginType);
 
-    Optional<CustomerInformationEntity> findByIdAndLoginType(String id, String loginType);
+    Optional<CustomerInformationEntity> findByUserIdAndLoginType(String userId, String loginType);
     boolean existsByEmail(String email);
     boolean existsByNickname(String nickname);
-    boolean existsByIdAndLoginType(String id, String loginType);
+    boolean existsByUserIdAndLoginType(String userId, String loginType);
 }
