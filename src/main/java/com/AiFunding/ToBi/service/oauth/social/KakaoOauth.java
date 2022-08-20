@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+
 
 @Component
 public class KakaoOauth implements SocialOauth {
@@ -65,7 +65,7 @@ public class KakaoOauth implements SocialOauth {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id="+kakaoClientId);
-            sb.append("&redirect_uri=http://localhost:8080/auth/KAKAO/callback");
+            sb.append("&redirect_uri=http://localhost:6026/oauth/kakao");
             sb.append("&code=" + authorizeCode);
             bw.write(sb.toString());
             bw.flush();
