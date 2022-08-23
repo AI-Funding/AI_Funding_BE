@@ -1,5 +1,6 @@
 package com.AiFunding.ToBi.dto.community;
 
+import com.AiFunding.ToBi.dto.community.chat.CommunityChatCommentDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +27,7 @@ public class CommunityPostDto {
     //작성자
     private String writer;
     //댓글
-    private List<CommunityCommentDto> comments;
+    private List<CommunityChatCommentDto> comments;
 
     public CommunityPostDto(final Long id,
                             final String title,
@@ -35,7 +36,7 @@ public class CommunityPostDto {
                             final Integer commentNum,
                             final String content,
                             final String writer,
-                            final List<CommunityCommentDto> comments) {
+                            final List<CommunityChatCommentDto> comments) {
         this.id = id;
         this.title = title;
         this.date = date;

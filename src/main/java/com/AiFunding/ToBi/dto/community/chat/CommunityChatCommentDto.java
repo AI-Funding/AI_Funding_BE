@@ -1,4 +1,4 @@
-package com.AiFunding.ToBi.dto.community;
+package com.AiFunding.ToBi.dto.community.chat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class CommunityCommentDto {
+public class CommunityChatCommentDto {
     //댓글 작성자
     private String commentWriter;
     //댓글 내용
@@ -19,10 +19,10 @@ public class CommunityCommentDto {
     //댓글 좋아요 수
     private Integer commentHeartNum;
 
-    public CommunityCommentDto(final String commentWriter,
-                               final String commentContent,
-                               final LocalDateTime commentDate,
-                               final Integer commentHeartNum) {
+    public CommunityChatCommentDto(final String commentWriter,
+                                   final String commentContent,
+                                   final LocalDateTime commentDate,
+                                   final Integer commentHeartNum) {
         this.commentWriter = commentWriter;
         this.commentContent = commentContent;
         this.commentDate = commentDate;

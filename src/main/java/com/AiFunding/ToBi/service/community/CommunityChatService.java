@@ -1,15 +1,13 @@
 package com.AiFunding.ToBi.service.community;
 
-import com.AiFunding.ToBi.dto.Home.UserRequestDto;
 import com.AiFunding.ToBi.dto.community.CommunityPostDto;
-import com.AiFunding.ToBi.dto.community.CommunityCommentDto;
+import com.AiFunding.ToBi.dto.community.chat.CommunityChatCommentDto;
 import com.AiFunding.ToBi.dto.community.chat.CommunityChatResponseDto;
 import com.AiFunding.ToBi.entity.BoardEntity;
 import com.AiFunding.ToBi.entity.CommentEntity;
 import com.AiFunding.ToBi.entity.PostEntity;
 import com.AiFunding.ToBi.mapper.BoardRepository;
 import com.AiFunding.ToBi.mapper.CustomerInformationRepository;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -64,7 +62,7 @@ public class CommunityChatService {
         //hot 게시글 작성자
         String hotWriter = maxLikePostEntity.getCustomer().getNickname();
         //hot 게시글 댓글
-        List<CommunityCommentDto> hotComments = getCommentInfoList(maxLikePostEntity);
+        List<CommunityChatCommentDto> hotComments = getCommentInfoList(maxLikePostEntity);
         //게시글
         List<CommunityPostDto> board = getCommunityPostDtoList(optionalBoardEntity.get());
 
@@ -97,7 +95,7 @@ public class CommunityChatService {
             //작성자
             String writer = postEntity.getCustomer().getNickname();
             //댓글
-            List<CommunityCommentDto> comments = getCommentInfoList(postEntity);
+            List<CommunityChatCommentDto> comments = getCommentInfoList(postEntity);
 
             communityCommentDtoList.add(new CommunityPostDto(id, title, date, heartNum, commentNum, content, writer, comments));
 
@@ -110,8 +108,8 @@ public class CommunityChatService {
      * @param postEntity
      * @return
      */
-    public List<CommunityCommentDto> getCommentInfoList(PostEntity postEntity) {
-        List<CommunityCommentDto> communityCommentDtoList = new ArrayList<>();
+    public List<CommunityChatCommentDto> getCommentInfoList(PostEntity postEntity) {
+        List<CommunityChatCommentDto> communityCommentDtoList = new ArrayList<>();
         //게시글에 대한 모든 댓글
         List<CommentEntity> commentEntityList = postEntity.getComments();
         for (CommentEntity commentEntity : commentEntityList) {
@@ -124,7 +122,7 @@ public class CommunityChatService {
             //댓글 좋아요 수
             Integer commentHeartNum = commentEntity.getCommentLike();
 
-            communityCommentDtoList.add(new CommunityCommentDto(commentWriter, commentContent, commentDate, commentHeartNum));
+            communityCommentDtoList.add(new CommunityChatCommentDto(commentWriter, commentContent, commentDate, commentHeartNum));
         }
         return communityCommentDtoList;
     }
