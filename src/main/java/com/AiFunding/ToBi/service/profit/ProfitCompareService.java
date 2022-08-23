@@ -34,6 +34,7 @@ public class ProfitCompareService {
     public ProfitAccountListDto findUserProfit(final Long id, final String loginType) {
         Optional<CustomerInformationEntity> customerInfo = customerInformationRepository.findByIdAndLoginType(id, loginType);
         customerInfo.orElseThrow(NullPointerException::new);
+
         return new ProfitAccountListDto(getProfitAccountInfoResponseDtoList(customerInfo.get()));
     }
 

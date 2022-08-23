@@ -16,4 +16,5 @@ public interface CustomerInformationRepository extends JpaRepository<CustomerInf
     boolean existsByEmail(String email);
     boolean existsByNickname(String nickname);
     boolean existsByIdAndLoginType(String id, String loginType);
+    boolean existsByIdAndLoginType(Long id, String loginType);
 }

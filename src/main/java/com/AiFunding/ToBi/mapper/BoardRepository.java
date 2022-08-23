@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
     public Optional<BoardEntity> findById(Long id);
+    public Optional<BoardEntity> findByPostType(String postType);
 }
