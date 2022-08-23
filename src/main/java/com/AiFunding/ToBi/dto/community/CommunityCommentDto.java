@@ -6,25 +6,27 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CommunityComment {
+public class CommunityCommentDto {
+    //댓글 작성자 정보 Id
     @JsonProperty("customer_info_id")
     private Long customerId;
+    //게시판 Id
     @JsonProperty("board_id")
     private Long boardId;
-
+    //부모게시글 사용자 Id
     @JsonProperty("parent_id")
     private Long parentId;
-
+    //게시글 id
     @JsonProperty("post_id")
     private Long postId;
-    
+    //댓글 내용
     private String content;
 
-    public CommunityComment(final Long customerId,
-                            final Long boardId,
-                            final Long parentId,
-                            final Long postId,
-                            final String content) {
+    public CommunityCommentDto(final Long customerId,
+                               final Long boardId,
+                               final Long parentId,
+                               final Long postId,
+                               final String content) {
         this.customerId = customerId;
         this.boardId = boardId;
         this.parentId = parentId;
