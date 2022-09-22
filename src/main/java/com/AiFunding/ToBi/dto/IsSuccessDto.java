@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class IsSuccessDto {
-    private Boolean success;
+    private Boolean isSuccess;
 
-    public IsSuccessDto(final Boolean success) {
-        this.success = success;
+    public IsSuccessDto(final Boolean isSuccess) {
+        this.isSuccess = isSuccess;
     }
 }
