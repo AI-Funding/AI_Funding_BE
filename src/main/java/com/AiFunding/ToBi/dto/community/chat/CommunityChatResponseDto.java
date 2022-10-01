@@ -1,7 +1,6 @@
 package com.AiFunding.ToBi.dto.community.chat;
 
 import com.AiFunding.ToBi.dto.community.CommunityPostDto;
-import com.AiFunding.ToBi.dto.community.CommunityCommentDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +29,7 @@ public class CommunityChatResponseDto {
     //hot 게시글 작성자
     private String hotWriter;
     //hot 게시글 댓글
-    private List<CommunityCommentDto> hotComments;
+    private List<CommunityChatCommentDto> hotComments;
     //hot 게시글 게시글
     private List<CommunityPostDto> board;
 
@@ -42,7 +41,7 @@ public class CommunityChatResponseDto {
                                     final Integer hotCommentNum,
                                     final String hotContent,
                                     final String hotWriter,
-                                    final List<CommunityCommentDto> hotComments,
+                                    final List<CommunityChatCommentDto> hotComments,
                                     final List<CommunityPostDto> board) {
         this.isMember = isMember;
         this.hotId = hotId;
