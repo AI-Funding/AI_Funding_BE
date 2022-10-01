@@ -1,6 +1,7 @@
 package com.AiFunding.ToBi.controller;
 
 import com.AiFunding.ToBi.dto.setting.ChangeAccountNameDto;
+import com.AiFunding.ToBi.dto.setting.ChangeUserNameDto;
 import com.AiFunding.ToBi.service.setting.SettingService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,4 +27,10 @@ public class SettingController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("change-user-name")
+    public ResponseEntity<Void> ChangeUserName(@RequestBody ChangeUserNameDto userName) throws Exception{
+        settingService.changeUserName(userName);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
