@@ -29,8 +29,10 @@ public class AccountListResponseDto {
 
     private List<StockListResponseDto> stocks;
 
+    private Integer aiType;
+
     public AccountListResponseDto(final String nickname, final Long balance, final LocalDateTime createAt, final Double todayIncome
-    , final Long todayProfit, final Double totalIncome, final Long totalProfit, final List<StockListResponseDto> stocks){
+    , final Long todayProfit, final Double totalIncome, final Long totalProfit, final List<StockListResponseDto> stocks, final Integer aiType){
         this.nickname = nickname;
         this.balance = balance;
         this.createAt = createAt;
@@ -39,5 +41,6 @@ public class AccountListResponseDto {
         this.totalIncome = totalIncome;
         this.totalProfit = totalProfit;
         this.stocks = stocks;
+        this.aiType = aiType;
     }
 }
