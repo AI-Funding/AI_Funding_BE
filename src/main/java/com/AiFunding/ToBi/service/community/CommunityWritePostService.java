@@ -4,6 +4,8 @@ import com.AiFunding.ToBi.dto.IsSuccessDto;
 import com.AiFunding.ToBi.entity.BoardEntity;
 import com.AiFunding.ToBi.entity.CustomerInformationEntity;
 import com.AiFunding.ToBi.entity.PostEntity;
+import com.AiFunding.ToBi.exception.CustomError;
+import com.AiFunding.ToBi.exception.ErrorCodes;
 import com.AiFunding.ToBi.mapper.BoardRepository;
 import com.AiFunding.ToBi.mapper.CustomerInformationRepository;
 import com.AiFunding.ToBi.mapper.PostRepository;
@@ -28,10 +30,16 @@ public class CommunityWritePostService {
         Optional<CustomerInformationEntity> optionalCustomerInformation = customerInformationRepository.findById(customerId);
         Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(boardId);
         //사용자나 게시판 정보가 존재하지 않는 경우 실패반환
-        if (optionalCustomerInformation.isEmpty() || optionalBoardEntity.isEmpty()) return new IsSuccessDto(false);
-        else {//성공시 게시글 저장 및 성공 반환
-            postRepository.save(new PostEntity(null, content, title, 0, optionalCustomerInformation.get(), optionalBoardEntity.get(), null));
-            return new IsSuccessDto(true);
-        }
+        if (optionalBoardEntity.isEmpty()) throw new CustomError(ErrorCodes.NOT_EXIST_BOARD);
+        postRepository.save(PostEntity.builder()
+                .id(null)
+                .content(content)
+                .title(title)
+                .postLike(0)
+                .customer(optionalCustomerInformation.get())
+                .board(optionalBoardEntity.get())
+                .comments(null).build());
+
+        return new IsSuccessDto(true);
     }
 }
